@@ -21,22 +21,22 @@ const About = () => {
 
   const team = [
     {
-      name: "Dr. Priya Krishnan",
-      role: "Founder & Chief Medical Officer", 
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=face",
-      description: "BAMS, MD Ayurveda, 15+ years experience in Ayurvedic medicine"
+      name: "--",
+      role: "---",
+      image: "https://images.unsplash.com/photo",
+      description: "===="
     },
     {
-      name: "Rajesh Kumar",
-      role: "Co-Founder & CTO",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face", 
-      description: "MS Computer Science, 12+ years in HealthTech and AI applications"
+      name: "--",
+      role: "---",
+      image: "https://images.unsplash.com/photo",
+      description: "===="
     },
     {
-      name: "Dr. Meera Sharma",
-      role: "Head of Clinical Research",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b2e7a6c0?w=400&h=400&fit=crop&crop=face",
-      description: "PhD Ayurveda, Research Specialist in clinical validation"
+      name: "--",
+      role: "---",
+      image: "https://images.unsplash.com/photo",
+      description: "===="
     }
   ];
 
