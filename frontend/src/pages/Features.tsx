@@ -50,150 +50,162 @@ const Features = () => {
   const comparisonData = [
     {
       feature: "Holistic AI-Powered Dosha Analysis",
-      ayurmind: true,
+      ayurdiet: true,
       traditional: false
     },
     {
       feature: "Dynamic, Generative Recipe Engine",
-      ayurmind: true,
+      ayurdiet: true,
       traditional: false
     },
     {
       feature: "Real-time Doshic Balance Tracking",
-      ayurmind: true,
+      ayurdiet: true,
       traditional: false
     },
     {
       feature: "Gamified & Engaging Wellness Journey",
-      ayurmind: true,
+      ayurdiet: true,
       traditional: "Limited / Static"
     },
     {
       feature: "Integrated B2B Practitioner Dashboard",
-      ayurmind: true,
+      ayurdiet: true,
       traditional: false
     },
     {
       feature: "Blockchain-Based Consent & Data Security",
-      ayurmind: true,
+      ayurdiet: true,
       traditional: false
     }
   ];
 
   return (
-    <div className="bg-[#fafafa] min-h-screen" style={{fontFamily: 'Manrope, "Noto Sans", sans-serif'}}>
+    <div className="bg-[#F5F5DC] min-h-screen" style={{fontFamily: 'Manrope, "Noto Sans", sans-serif'}}>
       <div className="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
-        <div className="layout-container flex h-full grow flex-col">
-          <main className="flex-1 px-4 sm:px-10 lg:px-20 py-16">
-            <div className="mx-auto max-w-6xl">
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="leaf leaf-1"></div>
+          <div className="leaf leaf-2"></div>
+          <div className="leaf leaf-3"></div>
+          <div className="leaf leaf-4"></div>
+        </div>
+        
+        <div className="layout-container flex h-full grow flex-col relative z-10">
+          <main className="px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-10 lg:py-20">
+            <div className="layout-content-container flex flex-col max-w-6xl flex-1 gap-16">
               
               {/* Hero Section */}
-              <section className="text-center mb-24">
-                <h1 className="text-4xl md:text-5xl font-bold text-[#262626] mb-4">
+              <section className="text-center flex flex-col items-center gap-4">
+                <h1 className="text-stone-800 tracking-tight text-4xl md:text-5xl font-bold leading-tight">
                   Powerful Features for Modern Wellness
                 </h1>
-                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                <p className="text-stone-600 text-lg max-w-3xl font-normal leading-relaxed">
                   AyurDiet bridges ancient Ayurvedic wisdom with modern technology,
                   offering a personalized and effective path to holistic well-being.
                 </p>
               </section>
               
               {/* Patient Features */}
-              <section className="mb-24">
-                <h2 className="text-3xl font-bold text-center mb-12 text-[#262626]">
+              <section>
+                <h2 className="text-stone-800 text-3xl font-bold leading-tight tracking-tight text-center mb-8">
                   A Personalized Path to Wellness
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                   {patientFeatures.map((feature, index) => (
                     <div 
                       key={index}
-                      className="bg-[#fef9c3] p-6 flex flex-col items-center text-center rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                      className="flex flex-1 gap-4 rounded-xl border border-transparent bg-white p-6 flex-col items-center text-center shadow-lg transition-transform transform hover:-translate-y-2"
                     >
-                      <div className="bg-white rounded-full p-4 flex items-center justify-center mb-4">
-                        <span className="material-symbols-outlined text-4xl text-[#4caf50]">
+                      <div className="bg-[#F5F5DC] text-[#7FB069] rounded-full p-3 inline-flex">
+                        <span className="material-symbols-outlined text-4xl">
                           {feature.icon}
                         </span>
                       </div>
-                      <h3 className="font-bold text-lg mb-2 text-[#262626]">
-                        {feature.title}
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        {feature.description}
-                      </p>
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-stone-800 text-xl font-bold leading-tight">
+                          {feature.title}
+                        </h3>
+                        <p className="text-[#708764] text-base font-normal leading-relaxed">
+                          {feature.description}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
               </section>
               
               {/* Practitioner Features */}
-              <section className="mb-24">
-                <h2 className="text-3xl font-bold text-center mb-12 text-[#262626]">
+              <section>
+                <h2 className="text-stone-800 text-3xl font-bold leading-tight tracking-tight text-center mb-8">
                   Streamline Your Practice, Elevate Your Care
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                   {practitionerFeatures.map((feature, index) => (
                     <div 
                       key={index}
-                      className="bg-[#fef9c3] p-6 flex flex-col items-center text-center rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                      className="flex flex-1 gap-4 rounded-xl border border-transparent bg-white p-6 flex-col items-center text-center shadow-lg transition-transform transform hover:-translate-y-2"
                     >
-                      <div className="bg-white rounded-full p-4 flex items-center justify-center mb-4">
-                        <span className="material-symbols-outlined text-4xl text-[#4caf50]">
+                      <div className="bg-[#F5F5DC] text-[#7FB069] rounded-full p-3 inline-flex">
+                        <span className="material-symbols-outlined text-4xl">
                           {feature.icon}
                         </span>
                       </div>
-                      <h3 className="font-bold text-lg mb-2 text-[#262626]">
-                        {feature.title}
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        {feature.description}
-                      </p>
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-stone-800 text-xl font-bold leading-tight">
+                          {feature.title}
+                        </h3>
+                        <p className="text-[#708764] text-base font-normal leading-relaxed">
+                          {feature.description}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
               </section>
               
               {/* Comparison Table */}
-              <section>
-                <h2 className="text-3xl font-bold text-center mb-12 text-[#262626]">
+              <section className="bg-white rounded-xl p-8 lg:p-12 shadow-lg">
+                <h2 className="text-stone-800 text-3xl font-bold leading-tight tracking-tight text-center mb-8">
                   The AyurDiet Advantage
                 </h2>
-                <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+                <div className="overflow-x-auto rounded-lg border border-stone-200 bg-white shadow-sm">
                   <table className="w-full text-left text-sm">
-                    <thead className="bg-gray-50 border-b border-gray-200">
+                    <thead className="bg-[#F5F5DC] border-b border-stone-200">
                       <tr>
-                        <th className="px-6 py-4 font-bold text-[#262626]">
+                        <th className="px-6 py-4 font-bold text-stone-800">
                           Feature
                         </th>
-                        <th className="px-6 py-4 font-bold text-[#262626] text-center">
+                        <th className="px-6 py-4 font-bold text-stone-800 text-center">
                           AyurDiet
                         </th>
-                        <th className="px-6 py-4 font-bold text-[#262626] text-center">
+                        <th className="px-6 py-4 font-bold text-stone-800 text-center">
                           Traditional Methods / Generic Apps
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
+                    <tbody className="divide-y divide-stone-200">
                       {comparisonData.map((row, index) => (
-                        <tr key={index}>
-                          <td className="px-6 py-4 font-medium text-[#262626]">
+                        <tr key={index} className={index % 2 === 0 ? 'bg-[#F5F5DC]/20' : 'bg-white'}>
+                          <td className="px-6 py-4 font-medium text-stone-800">
                             {row.feature}
                           </td>
                           <td className="px-6 py-4 text-center">
-                            <span className="material-symbols-outlined text-[#4caf50] text-2xl">
+                            <span className="material-symbols-outlined text-[#7FB069] text-2xl">
                               check_circle
                             </span>
                           </td>
                           <td className="px-6 py-4 text-center">
                             {row.traditional === false ? (
-                              <span className="material-symbols-outlined text-[#ef5350] text-2xl">
+                              <span className="material-symbols-outlined text-[#A0522D] text-2xl">
                                 cancel
                               </span>
                             ) : typeof row.traditional === 'string' ? (
-                              <span className="text-sm font-medium text-gray-500">
+                              <span className="text-sm font-medium text-stone-600">
                                 {row.traditional}
                               </span>
                             ) : (
-                              <span className="material-symbols-outlined text-[#4caf50] text-2xl">
+                              <span className="material-symbols-outlined text-[#7FB069] text-2xl">
                                 check_circle
                               </span>
                             )}
