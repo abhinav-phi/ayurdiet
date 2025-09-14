@@ -126,26 +126,6 @@ const Header = () => {
                   <div className="text-xs text-gray-500">Manage your patients</div>
                 </div>
               </Link>
-
-              <div className="border-t border-gray-100 mt-2 pt-2">
-                <Link
-                  to="/patient/login"
-                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green transition-colors duration-200"
-                  onClick={() => setIsAccountDropdownOpen(false)}
-                >
-                  <User className="h-4 w-4 mr-3" />
-                  Patient Login
-                </Link>
-                
-                <Link
-                  to="/dietician/login"
-                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green transition-colors duration-200"
-                  onClick={() => setIsAccountDropdownOpen(false)}
-                >
-                  <Stethoscope className="h-4 w-4 mr-3" />
-                  Practitioner Login
-                </Link>
-              </div>
             </div>
           )}
         </div>
@@ -223,25 +203,6 @@ const Header = () => {
                 Practitioner Dashboard
               </Link>
 
-              <div className="border-t border-gray-100 mt-2 pt-2">
-                <Link
-                  to="/patient/login"
-                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <User className="h-4 w-4 mr-2" />
-                  Patient Login
-                </Link>
-                
-                <Link
-                  to="/dietician/login"
-                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <Stethoscope className="h-4 w-4 mr-2" />
-                  Practitioner Login
-                </Link>
-              </div>
             </div>
           </div>
         </div>
