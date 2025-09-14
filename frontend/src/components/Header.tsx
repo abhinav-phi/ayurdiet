@@ -83,13 +83,12 @@ const Header = () => {
         </Link>
       </nav>
 
-      {/* Desktop Auth Buttons */}
-      <div className="hidden md:flex items-center gap-4">
-        {/* My Account Dropdown */}
+      {/* Desktop My Account Button */}
+      <div className="hidden md:flex items-center">
         <div className="relative" ref={dropdownRef}>
           <button 
             onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}
-            className="flex items-center justify-center rounded-full h-12 px-6 bg-white text-gray-700 text-base font-medium leading-normal tracking-wide shadow-md hover:shadow-lg transition-shadow duration-300"
+            className="flex items-center justify-center rounded-full h-12 px-6 bg-soft-sage-green text-white text-base font-bold leading-normal tracking-wide shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-opacity-90"
           >
             <span className="material-symbols-outlined mr-2">account_circle</span>
             <span className="truncate">My Account</span>
@@ -127,16 +126,29 @@ const Header = () => {
                   <div className="text-xs text-gray-500">Manage your patients</div>
                 </div>
               </Link>
+
+              <div className="border-t border-gray-100 mt-2 pt-2">
+                <Link
+                  to="/patient/login"
+                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green transition-colors duration-200"
+                  onClick={() => setIsAccountDropdownOpen(false)}
+                >
+                  <User className="h-4 w-4 mr-3" />
+                  Patient Login
+                </Link>
+                
+                <Link
+                  to="/dietician/login"
+                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green transition-colors duration-200"
+                  onClick={() => setIsAccountDropdownOpen(false)}
+                >
+                  <Stethoscope className="h-4 w-4 mr-3" />
+                  Practitioner Login
+                </Link>
+              </div>
             </div>
           )}
         </div>
-
-        <Link 
-          to="/dietician/signup" 
-          className="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-soft-sage-green text-white text-base font-bold leading-normal tracking-wide shadow-lg hover:shadow-xl transition-shadow duration-300"
-        >
-          <span className="truncate">Get Started</span>
-        </Link>
       </div>
 
       {/* Mobile menu button */}
@@ -194,7 +206,7 @@ const Header = () => {
               </div>
               
               <Link
-                to="/patient/dashboard"
+                to="/patient-dashboard"
                 className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green rounded-md"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -203,21 +215,33 @@ const Header = () => {
               </Link>
               
               <Link
-                to="/dietician/dashboard"
+                to="/dietician-dashboard"
                 className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green rounded-md"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Stethoscope className="h-4 w-4 mr-2" />
                 Practitioner Dashboard
               </Link>
-              
-              <Link 
-                to="/dietician/signup" 
-                className="block px-4 py-2 text-sm text-white bg-soft-sage-green rounded-md text-center font-medium mt-4"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Get Started
-              </Link>
+
+              <div className="border-t border-gray-100 mt-2 pt-2">
+                <Link
+                  to="/patient/login"
+                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Patient Login
+                </Link>
+                
+                <Link
+                  to="/dietician/login"
+                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-soft-sage-green rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Stethoscope className="h-4 w-4 mr-2" />
+                  Practitioner Login
+                </Link>
+              </div>
             </div>
           </div>
         </div>
