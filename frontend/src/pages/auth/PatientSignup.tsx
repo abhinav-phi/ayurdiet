@@ -3,10 +3,17 @@ import { Link } from 'react-router-dom';
 
 const PatientSignup = () => {
   const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
     mobile: '',
     otp: '',
-    email: '',
-    password: ''
+    dateOfBirth: '',
+    height: '',
+    weight: '',
+    gender: '',
+    dietaryPreference: '',
+    knownAllergies: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -14,120 +21,327 @@ const PatientSignup = () => {
     console.log('Patient signup attempt:', formData);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-transparent overflow-hidden p-4 leaf-pattern-bg">
-      <div className="w-full max-w-md">
-        {/* Logo Section */}
-        <div className="flex justify-center mb-6">
-          <div className="flex items-center gap-3 text-[#141711]">
-            <div className="w-10 h-10 text-[#7FB069]">
-              <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_6_543)">
-                  <path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z" fill="currentColor"></path>
-                  <path clipRule="evenodd" d="M7.24189 26.4066C7.31369 26.4411 7.64204 26.5637 8.52504 26.3738C9.59462 26.1438 11.0343 25.5311 12.7183 24.4963C14.7583 23.2426 17.0256 21.4503 19.238 19.238C21.4503 17.0256 23.2426 14.7583 24.4963 12.7183C25.5311 11.0343 26.1438 9.59463 26.3738 8.52504C26.5637 7.64204 26.4411 7.31369 26.4066 7.24189C26.345 7.21246 26.143 7.14535 25.6664 7.1918C24.9745 7.25925 23.9954 7.5498 22.7699 8.14278C20.3369 9.32007 17.3369 11.4915 14.4142 14.4142C11.4915 17.3369 9.32007 20.3369 8.14278 22.7699C7.5498 23.9954 7.25925 24.9745 7.1918 25.6664C7.14534 26.143 7.21246 26.345 7.24189 26.4066ZM29.9001 10.7285C29.4519 12.0322 28.7617 13.4172 27.9042 14.8126C26.465 17.1544 24.4686 19.6641 22.0664 22.0664C19.6641 24.4686 17.1544 26.465 14.8126 27.9042C13.4172 28.7617 12.0322 29.4519 10.7285 29.9001L21.5754 40.747C21.6001 40.7606 21.8995 40.931 22.8729 40.7217C23.9424 40.4916 25.3821 39.879 27.0661 38.8441C29.1062 37.5904 31.3734 35.7982 33.5858 33.5858C35.7982 31.3734 37.5904 29.1062 38.8441 27.0661C39.879 25.3821 40.4916 23.9425 40.7216 22.8729C40.931 21.8995 40.7606 21.6001 40.747 21.5754L29.9001 10.7285ZM29.2403 4.41187L43.5881 18.7597C44.9757 20.1473 44.9743 22.1235 44.6322 23.7139C44.2714 25.3919 43.4158 27.2666 42.252 29.1604C40.8128 31.5022 38.8165 34.012 36.4142 36.4142C34.012 38.8165 31.5022 40.8128 29.1604 42.252C27.2666 43.4158 25.3919 44.2714 23.7139 44.6322C22.1235 44.9743 20.1473 44.9757 18.7597 43.5881L4.41187 29.2403C3.29027 28.1187 3.08209 26.5973 3.21067 25.2783C3.34099 23.9415 3.8369 22.4852 4.54214 21.0277C5.96129 18.0948 8.43335 14.7382 11.5858 11.5858C14.7382 8.43335 18.0948 5.9613 21.0277 4.54214C22.4852 3.8369 23.9415 3.34099 25.2783 3.21067C26.5973 3.08209 28.1187 3.29028 29.2403 4.41187Z" fill="currentColor" fillRule="evenodd"></path>
-                </g>
-                <defs>
-                  <clipPath id="clip0_6_543">
-                    <rect fill="white" height="48" width="48"></rect>
-                  </clipPath>
-                </defs>
-              </svg>
+    <>
+      <style>{`
+        body {
+          background-color: #F5F5F5;
+          background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(245, 245, 245, 0.8) 100%);
+        }
+        
+        .leaf {
+          position: absolute;
+          background-repeat: no-repeat;
+          background-size: contain;
+          opacity: 0.15;
+        }
+        
+        .leaf-1 { 
+          width: 80px; height: 80px; top: 8%; left: 5%; 
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237FB069'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z'/%3E%3C/svg%3E"); 
+        }
+        .leaf-2 { 
+          width: 120px; height: 120px; top: 12%; right: 3%; 
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2398D8C8'%3E%3Cpath d='M12,2a10,10,0,1,0,10,10A10,10,0,0,0,12,2Zm1,14.59L11.59,15,9.41,17.17,8,15.76,11.59,12.17,8,8.59,9.41,7.17,13,10.76,16.59,7.17,18,8.59,14.41,12.17,18,15.76l-1.41,1.41L13,14Z'/%3E%3C/svg%3E"); 
+        }
+        .leaf-3 { 
+          width: 60px; height: 60px; top: 30%; left: 10%; 
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234B5563'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'/%3E%3C/svg%3E'); 
+        }
+        .leaf-4 { 
+          width: 90px; height: 90px; bottom: 15%; right: 8%; 
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237FB069'%3E%3Cpath d='M12,2a10,10,0,1,0,10,10A10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z'/%3E%3C/svg%3E"); 
+        }
+        .leaf-5 { 
+          width: 70px; height: 70px; bottom: 25%; left: 12%; 
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2398D8C8'%3E%3Cpath d='M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10,10-4.48,10-10S17.52,2,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z'/%3E%3C/svg%3E"); 
+        }
+        .leaf-6 { 
+          width: 50px; height: 50px; top: 60%; right: 15%; 
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234B5563'%3E%3Cpath d='M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z'/%3E%3C/svg%3E"); 
+        }
+      `}</style>
+      
+      <div className="relative min-h-screen w-full overflow-hidden">
+        <div className="leaf leaf-1"></div>
+        <div className="leaf leaf-2"></div>
+        <div className="leaf leaf-3"></div>
+        <div className="leaf leaf-4"></div>
+        <div className="leaf leaf-5"></div>
+        <div className="leaf leaf-6"></div>
+        
+        <div className="absolute inset-0 bg-gradient-to-br from-[#F5F5F5]/80 via-[#F5F5F5]/90 to-[#F5F5F5]"></div>
+
+        <div className="relative flex min-h-screen w-full flex-col items-center justify-center p-4 py-8">
+          <div className="w-full max-w-2xl">
+            <div className="mb-6 text-center">
+              <div className="inline-flex items-center justify-center gap-3 mb-4">
+                <svg className="h-10 w-10 text-[#7FB069]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <g clipPath="url(#clip0_6_543)">
+                    <path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z" fill="currentColor"></path>
+                    <path clipRule="evenodd" d="M7.24189 26.4066C7.31369 26.4411 7.64204 26.5637 8.52504 26.3738C9.59462 26.1438 11.0343 25.5311 12.7183 24.4963C14.7583 23.2426 17.0256 21.4503 19.238 19.238C21.4503 17.0256 23.2426 14.7583 24.4963 12.7183C25.5311 11.0343 26.1438 9.59463 26.3738 8.52504C26.5637 7.64204 26.4411 7.31369 26.4066 7.24189C26.345 7.21246 26.143 7.14535 25.6664 7.1918C24.9745 7.25925 23.9954 7.5498 22.7699 8.14278C20.3369 9.32007 17.3369 11.4915 14.4142 14.4142C11.4915 17.3369 9.32007 20.3369 8.14278 22.7699C7.5498 23.9954 7.25925 24.9745 7.1918 25.6664C7.14534 26.143 7.21246 26.345 7.24189 26.4066ZM29.9001 10.7285C29.4519 12.0322 28.7617 13.4172 27.9042 14.8126C26.465 17.1544 24.4686 19.6641 22.0664 22.0664C19.6641 24.4686 17.1544 26.465 14.8126 27.9042C13.4172 28.7617 12.0322 29.4519 10.7285 29.9001L21.5754 40.747C21.6001 40.7606 21.8995 40.931 22.8729 40.7217C23.9424 40.4916 25.3821 39.879 27.0661 38.8441C29.1062 37.5904 31.3734 35.7982 33.5858 33.5858C35.7982 31.3734 37.5904 29.1062 38.8441 27.0661C39.879 25.3821 40.4916 23.9425 40.7216 22.8729C40.931 21.8995 40.7606 21.6001 40.747 21.5754L29.9001 10.7285ZM29.2403 4.41187L43.5881 18.7597C44.9757 20.1473 44.9743 22.1235 44.6322 23.7139C44.2714 25.3919 43.4158 27.2666 42.252 29.1604C40.8128 31.5022 38.8165 34.012 36.4142 36.4142C34.012 38.8165 31.5022 40.8128 29.1604 42.252C27.2666 43.4158 25.3919 44.2714 23.7139 44.6322C22.1235 44.9743 20.1473 44.9757 18.7597 43.5881L4.41187 29.2403C3.29027 28.1187 3.08209 26.5973 3.21067 25.2783C3.34099 23.9415 3.8369 22.4852 4.54214 21.0277C5.96129 18.0948 8.43335 14.7382 11.5858 11.5858C14.7382 8.43335 18.0948 5.9613 21.0277 4.54214C22.4852 3.8369 23.9415 3.34099 25.2783 3.21067C26.5973 3.08209 28.1187 3.29028 29.2403 4.41187Z" fill="currentColor" fillRule="evenodd"></path>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_6_543">
+                      <rect fill="white" height="48" width="48"></rect>
+                    </clipPath>
+                  </defs>
+                </svg>
+                <h1 className="text-4xl font-bold text-[#141711] tracking-tight">AyurDiet</h1>
+              </div>
+              <p className="text-base text-[#4d5942]">Create your account and start your personalized Ayurvedic journey.</p>
             </div>
-            <h1 className="text-[#141711] text-2xl font-bold leading-tight tracking-[-0.015em]">AyurDiet</h1>
-          </div>
-        </div>
+            
+            <div className="rounded-2xl bg-white/90 backdrop-blur-sm shadow-xl" style={{boxShadow: '0 10px 30px -15px rgba(0, 0, 0, 0.2)'}}>
+              <div className="p-8">
+                <h2 className="text-center text-3xl font-bold text-[#7FB069] mb-6">Create Your Account</h2>
 
-        {/* Form Container */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg p-8 sm:p-10">
-          <div className="text-center mb-6">
-            <h2 className="text-[#7FB069] text-3xl font-bold">Create Your Account</h2>
-            <p className="text-[#4B5563] mt-2 text-md">Get your personalized Ayurvedic diet plan instantly.</p>
-          </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-[#141711] border-b border-gray-200 pb-2">Personal Information</h3>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="name">
+                        Full Name *
+                      </label>
+                      <input
+                        className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] placeholder:text-[#4B5563] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        type="text"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="mobile">
-                Mobile Number
-              </label>
-              <div className="flex items-center">
-                <input
-                  className="form-input flex-1 w-full rounded-lg border-[#E0E5DC] bg-white/80 h-12 px-4 placeholder:text-[#A0A89C] focus:ring-2 focus:ring-[#7FB069] focus:border-transparent transition duration-200"
-                  id="mobile"
-                  placeholder="Enter your mobile number"
-                  type="tel"
-                  value={formData.mobile}
-                  onChange={(e) => setFormData({...formData, mobile: e.target.value})}
-                />
-                <button
-                  className="ml-2 whitespace-nowrap text-sm font-semibold text-[#D97706] hover:text-[#B45309] transition duration-200"
-                  type="button"
-                >
-                  Send OTP
-                </button>
+                    <div>
+                      <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="email">
+                        Email Address *
+                      </label>
+                      <input
+                        className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] placeholder:text-[#4B5563] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="password">
+                        Password *
+                      </label>
+                      <input
+                        className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] placeholder:text-[#4B5563] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                        id="password"
+                        name="password"
+                        placeholder="Create a strong password"
+                        type="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="mobile">
+                        Mobile Number *
+                      </label>
+                      <div className="flex items-center gap-4">
+                        <input
+                          className="flex-1 block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] placeholder:text-[#4B5563] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                          id="mobile"
+                          name="mobile"
+                          placeholder="Enter your mobile number"
+                          type="tel"
+                          value={formData.mobile}
+                          onChange={handleChange}
+                          required
+                        />
+                        <button
+                          className="flex-shrink-0 rounded-lg bg-[#f0f5eb] px-4 py-3 text-sm font-medium text-[#7FB069] hover:bg-[#e6efd9] transition-colors"
+                          type="button"
+                        >
+                          Send OTP
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="otp">
+                        OTP
+                      </label>
+                      <input
+                        className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] placeholder:text-[#4B5563] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                        id="otp"
+                        name="otp"
+                        placeholder="Enter 6-digit OTP"
+                        type="text"
+                        maxLength="6"
+                        value={formData.otp}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-[#141711] border-b border-gray-200 pb-2">Physical Information</h3>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="dateOfBirth">
+                        Date of Birth *
+                      </label>
+                      <input
+                        className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] placeholder:text-[#4B5563] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                        id="dateOfBirth"
+                        name="dateOfBirth"
+                        type="date"
+                        value={formData.dateOfBirth}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="height">
+                          Height (cm) *
+                        </label>
+                        <input
+                          className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] placeholder:text-[#4B5563] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                          id="height"
+                          name="height"
+                          placeholder="e.g. 170"
+                          type="number"
+                          value={formData.height}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="weight">
+                          Weight (kg) *
+                        </label>
+                        <input
+                          className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] placeholder:text-[#4B5563] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                          id="weight"
+                          name="weight"
+                          placeholder="e.g. 65"
+                          type="number"
+                          value={formData.weight}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="gender">
+                        Gender *
+                      </label>
+                      <select
+                        className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                        id="gender"
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select your gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                        <option value="prefer-not-to-say">Prefer not to say</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-[#141711] border-b border-gray-200 pb-2">Dietary Information</h3>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="dietaryPreference">
+                        Dietary Preference *
+                      </label>
+                      <select
+                        className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2"
+                        id="dietaryPreference"
+                        name="dietaryPreference"
+                        value={formData.dietaryPreference}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select your dietary preference</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="jain">Jain</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="knownAllergies">
+                        Known Allergies
+                      </label>
+                      <textarea
+                        className="block w-full rounded-lg border-gray-300 bg-[#F5F5F5] px-4 py-3.5 text-base text-[#141711] placeholder:text-[#4B5563] focus:border-[#7FB069] focus:ring-[#7FB069] focus:outline-none focus:ring-2 resize-none"
+                        id="knownAllergies"
+                        name="knownAllergies"
+                        placeholder="List any known food allergies or dietary restrictions (optional)"
+                        rows="3"
+                        value={formData.knownAllergies}
+                        onChange={handleChange}
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#7FB069] py-3 text-base font-bold text-white shadow-md transition-colors hover:bg-[#6f9e5e] focus:outline-none focus:ring-2 focus:ring-[#7FB069] focus:ring-offset-2"
+                  >
+                    Create Account
+                  </button>
+                </form>
+                
+                <p className="mt-8 text-center text-sm text-[#4B5563]">
+                  Already have an account?{' '}
+                  <Link 
+                    to="/patient/login"
+                    className="font-medium text-[#D97706] hover:underline"
+                  >
+                    Log in
+                  </Link>
+                </p>
+
+                <p className="mt-4 text-center text-xs text-[#4B5563]">
+                  By creating an account, you agree to our{' '}
+                  <Link className="font-medium text-[#D97706] hover:underline" to="/terms">
+                    Terms of Service
+                  </Link>{' '}
+                  and{' '}
+                  <Link className="font-medium text-[#D97706] hover:underline" to="/privacy">
+                    Privacy Policy
+                  </Link>.
+                </p>
               </div>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="otp">
-                OTP
-              </label>
-              <input
-                className="form-input w-full rounded-lg border-[#E0E5DC] bg-white/80 h-12 px-4 placeholder:text-[#A0A89C] focus:ring-2 focus:ring-[#7FB069] focus:border-transparent transition duration-200"
-                id="otp"
-                placeholder="Enter OTP"
-                type="text"
-                value={formData.otp}
-                onChange={(e) => setFormData({...formData, otp: e.target.value})}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="form-input w-full rounded-lg border-[#E0E5DC] bg-white/80 h-12 px-4 placeholder:text-[#A0A89C] focus:ring-2 focus:ring-[#7FB069] focus:border-transparent transition duration-200"
-                id="email"
-                placeholder="Enter your email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-[#141711] mb-2" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="form-input w-full rounded-lg border-[#E0E5DC] bg-white/80 h-12 px-4 placeholder:text-[#A0A89C] focus:ring-2 focus:ring-[#7FB069] focus:border-transparent transition duration-200"
-                id="password"
-                placeholder="Create a password"
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
-              />
-            </div>
-
-            <div>
-              <button
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-[#7FB069] hover:bg-[#6A9959] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7FB069] transition duration-200"
-                type="submit"
-              >
-                Register
-              </button>
-            </div>
-          </form>
-
-          <p className="mt-8 text-center text-sm text-[#4B5563]">
-            Already have an account?{' '}
-            <Link className="font-semibold text-[#D97706] hover:text-[#B45309] transition duration-200" to="/patient/login">
-              Sign in
-            </Link>
-          </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
