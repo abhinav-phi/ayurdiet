@@ -23,6 +23,7 @@ function App() {
         <Header />
         <main>
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/features" element={<Features />} />
             <Route path="/services" element={<Services />} />
