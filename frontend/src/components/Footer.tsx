@@ -34,7 +34,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="mt-8 border-t border-gray-700 pt-8 text-center text-gray-500">
-        <p>© 2024 AyurDiet. All rights reserved.</p>
+        <p>© 2025 AyurDiet. All rights reserved.</p>
       </div>
     </footer>
   );
