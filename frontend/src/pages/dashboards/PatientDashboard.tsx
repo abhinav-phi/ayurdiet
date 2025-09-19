@@ -40,15 +40,13 @@ const PatientDashboard = () => {
 
   const renderHome = () => (
     <div className="grid grid-cols-3 grid-rows-[auto_1fr_1fr] gap-8 h-full">
-      {/* Header */}
       <div className="col-span-3">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome back, Sophia</h1>
-        <p className="text-gray-600">Here's a look at your personalized Ayurvedic journey today.</p>
+        <h1 className="text-4xl font-bold text-stone-800 mb-2">Welcome back, Sophia</h1>
+        <p className="text-stone-600">Here's a look at your personalized Ayurvedic journey today.</p>
       </div>
 
-      {/* Doshic Balance */}
-      <div className="col-span-1 bg-white p-6 rounded-2xl shadow-md flex flex-col items-center justify-center">
-        <h2 className="text-2xl font-bold mb-4 text-gray-900">Doshic Balance</h2>
+      <div className="col-span-1 bg-white p-6 rounded-2xl shadow-lg flex flex-col items-center justify-center border border-stone-300">
+        <h2 className="text-2xl font-bold mb-4 text-stone-800">Doshic Balance</h2>
         <div className="relative w-48 h-48">
           <svg className="w-full h-full" viewBox="0 0 36 36">
             <path
@@ -58,7 +56,7 @@ const PatientDashboard = () => {
               strokeWidth="3"
             />
             <path
-              className="stroke-current text-green-500"
+              className="stroke-current text-[#7FB069]"
               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
               fill="none"
               strokeDasharray="60, 100"
@@ -66,7 +64,7 @@ const PatientDashboard = () => {
               strokeWidth="3"
             />
             <path
-              className="stroke-current text-blue-400"
+              className="stroke-current text-[#98D8C8]"
               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
               fill="none"
               strokeDasharray="40, 100"
@@ -75,7 +73,7 @@ const PatientDashboard = () => {
               strokeWidth="3"
             />
             <path
-              className="stroke-current text-amber-600"
+              className="stroke-current text-[#A0522D]"
               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
               fill="none"
               strokeDasharray="50, 100"
@@ -85,29 +83,28 @@ const PatientDashboard = () => {
             />
           </svg>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-            <p className="text-3xl font-bold text-gray-900">Balanced</p>
-            <p className="text-sm text-gray-500">Today</p>
+            <p className="text-3xl font-bold text-stone-800">Balanced</p>
+            <p className="text-sm text-stone-600">Today</p>
           </div>
         </div>
         <div className="flex justify-around w-full mt-6 text-center">
           <div>
-            <p className="font-bold text-green-500">Vata</p>
-            <p className="text-gray-700">60%</p>
+            <p className="font-bold text-[#7FB069]">Vata</p>
+            <p className="text-stone-700">60%</p>
           </div>
           <div>
-            <p className="font-bold text-blue-400">Pitta</p>
-            <p className="text-gray-700">40%</p>
+            <p className="font-bold text-[#98D8C8]">Pitta</p>
+            <p className="text-stone-700">40%</p>
           </div>
           <div>
-            <p className="font-bold text-amber-600">Kapha</p>
-            <p className="text-gray-700">50%</p>
+            <p className="font-bold text-[#A0522D]">Kapha</p>
+            <p className="text-stone-700">50%</p>
           </div>
         </div>
       </div>
 
-      {/* Today's Plan */}
-      <div className="col-span-2 bg-white p-6 rounded-2xl shadow-md">
-        <h2 className="text-2xl font-bold mb-4 text-gray-900">Today's Plan</h2>
+      <div className="col-span-2 bg-white p-6 rounded-2xl shadow-lg border border-stone-300">
+        <h2 className="text-2xl font-bold mb-4 text-stone-800">Today's Plan</h2>
         <div className="grid grid-cols-3 gap-6">
           {todayMeals.map((meal, index) => (
             <div key={index} className="flex flex-col gap-2 group">
@@ -118,46 +115,45 @@ const PatientDashboard = () => {
                   src={meal.image}
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
-                  <button className="text-white bg-green-600 px-3 py-1 rounded-md text-sm">
+                  <button className="text-white bg-[#7FB069] px-3 py-1 rounded-md text-sm">
                     View Recipe
                   </button>
                 </div>
               </div>
-              <p className="font-semibold text-gray-900">{meal.meal}: {meal.name}</p>
+              <p className="font-semibold text-stone-800">{meal.meal}: {meal.name}</p>
             </div>
           ))}
         </div>
         <div className="grid grid-cols-4 gap-4 mt-6">
-          <button className="flex items-center justify-center gap-2 rounded-lg py-2 bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors">
+          <button className="flex items-center justify-center gap-2 rounded-lg py-2 bg-[#7FB069] text-white font-semibold hover:bg-[#6ea055] transition-colors">
             <Apple className="w-4 h-4" />
             Log Meal
           </button>
-          <button className="flex items-center justify-center gap-2 rounded-lg py-2 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-700 transition-colors">
+          <button className="flex items-center justify-center gap-2 rounded-lg py-2 bg-[#F5F5DC] hover:bg-[#98D8C8] font-semibold text-stone-700 transition-colors">
             <TrendingUp className="w-4 h-4" />
             Track Symptoms
           </button>
-          <button className="flex items-center justify-center gap-2 rounded-lg py-2 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-700 transition-colors">
+          <button className="flex items-center justify-center gap-2 rounded-lg py-2 bg-[#F5F5DC] hover:bg-[#98D8C8] font-semibold text-stone-700 transition-colors">
             <Calendar className="w-4 h-4" />
             Journal Entry
           </button>
-          <button className="flex items-center justify-center gap-2 rounded-lg py-2 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-700 transition-colors">
+          <button className="flex items-center justify-center gap-2 rounded-lg py-2 bg-[#F5F5DC] hover:bg-[#98D8C8] font-semibold text-stone-700 transition-colors">
             <MessageCircle className="w-4 h-4" />
             Chat Practitioner
           </button>
         </div>
       </div>
 
-      {/* Digestive Strength */}
-      <div className="col-span-1 bg-white p-6 rounded-2xl shadow-md">
-        <h2 className="text-2xl font-bold mb-4 text-gray-900">Digestive Strength (Agni)</h2>
-        <p className="text-4xl font-bold text-green-600">85%</p>
-        <p className="text-sm text-green-600 font-semibold">+5% vs last 7 days</p>
+      <div className="col-span-1 bg-white p-6 rounded-2xl shadow-lg border border-stone-300">
+        <h2 className="text-2xl font-bold mb-4 text-stone-800">Digestive Strength (Agni)</h2>
+        <p className="text-4xl font-bold text-[#7FB069]">85%</p>
+        <p className="text-sm text-[#7FB069] font-semibold">+5% vs last 7 days</p>
         <div className="h-48 mt-4">
           <svg height="100%" preserveAspectRatio="none" viewBox="0 0 300 120" width="100%">
             <path
               d="M 0 80 C 40 20, 60 40, 100 90 S 160 30, 200 60 S 260 100, 300 20"
               fill="none"
-              stroke="rgb(34 197 94)"
+              stroke="#7FB069"
               strokeLinecap="round"
               strokeWidth="3"
             />
@@ -165,25 +161,23 @@ const PatientDashboard = () => {
         </div>
       </div>
 
-      {/* Adherence */}
-      <div className="col-span-1 bg-white p-6 rounded-2xl shadow-md">
-        <h2 className="text-2xl font-bold mb-4 text-gray-900">Adherence</h2>
-        <p className="text-4xl font-bold text-blue-400">92%</p>
-        <p className="text-sm text-green-600 font-semibold">+2% vs last 7 days</p>
+      <div className="col-span-1 bg-white p-6 rounded-2xl shadow-lg border border-stone-300">
+        <h2 className="text-2xl font-bold mb-4 text-stone-800">Adherence</h2>
+        <p className="text-4xl font-bold text-[#98D8C8]">92%</p>
+        <p className="text-sm text-[#7FB069] font-semibold">+2% vs last 7 days</p>
         <div className="h-48 mt-4 grid grid-cols-7 gap-2 items-end">
-          <div className="bg-blue-400 rounded-t-md" style={{height: '50%'}}></div>
-          <div className="bg-blue-400 rounded-t-md" style={{height: '70%'}}></div>
-          <div className="bg-blue-400 rounded-t-md" style={{height: '60%'}}></div>
-          <div className="bg-blue-400 rounded-t-md" style={{height: '90%'}}></div>
-          <div className="bg-blue-400 rounded-t-md" style={{height: '80%'}}></div>
-          <div className="bg-blue-400 rounded-t-md" style={{height: '95%'}}></div>
-          <div className="bg-blue-400 rounded-t-md" style={{height: '100%'}}></div>
+          <div className="bg-[#98D8C8] rounded-t-md" style={{height: '50%'}}></div>
+          <div className="bg-[#98D8C8] rounded-t-md" style={{height: '70%'}}></div>
+          <div className="bg-[#98D8C8] rounded-t-md" style={{height: '60%'}}></div>
+          <div className="bg-[#98D8C8] rounded-t-md" style={{height: '90%'}}></div>
+          <div className="bg-[#98D8C8] rounded-t-md" style={{height: '80%'}}></div>
+          <div className="bg-[#98D8C8] rounded-t-md" style={{height: '95%'}}></div>
+          <div className="bg-[#98D8C8] rounded-t-md" style={{height: '100%'}}></div>
         </div>
       </div>
 
-      {/* AI Insight */}
-      <div className="col-span-1 bg-cover bg-center rounded-2xl shadow-md flex flex-col justify-end p-6 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+      <div className="col-span-1 bg-cover bg-center rounded-2xl shadow-lg flex flex-col justify-end p-6 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#7FB069] via-[#7FB069]/80 to-transparent"></div>
         <div className="absolute inset-0" style={{
           backgroundImage: 'url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop")'
         }}></div>
@@ -198,25 +192,24 @@ const PatientDashboard = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'home': return renderHome();
-      case 'education': return <div className="text-center py-20 text-gray-500">Education module coming soon...</div>;
-      case 'community': return <div className="text-center py-20 text-gray-500">Community module coming soon...</div>;
-      case 'privacy': return <div className="text-center py-20 text-gray-500">Privacy settings coming soon...</div>;
-      case 'support': return <div className="text-center py-20 text-gray-500">Support center coming soon...</div>;
+      case 'education': return <div className="text-center py-20 text-stone-600">Education module coming soon...</div>;
+      case 'community': return <div className="text-center py-20 text-stone-600">Community module coming soon...</div>;
+      case 'privacy': return <div className="text-center py-20 text-stone-600">Privacy settings coming soon...</div>;
+      case 'support': return <div className="text-center py-20 text-stone-600">Support center coming soon...</div>;
       default: return renderHome();
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <div className="w-64 bg-gray-50 p-6 border-r border-gray-200 flex flex-col">
+    <div className="min-h-screen bg-[#F5F5DC] flex">
+      <div className="w-64 bg-[#F5F5DC] p-6 border-r border-stone-300 flex flex-col">
         <div className="flex items-center gap-3 mb-10">
-          <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center">
+          <div className="w-12 h-12 bg-gradient-to-br from-[#7FB069] to-[#98D8C8] rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-lg">S</span>
           </div>
           <div>
-            <h1 className="text-lg font-bold text-gray-900">Sophia Clark</h1>
-            <p className="text-sm text-gray-600">Patient</p>
+            <h1 className="text-lg font-bold text-stone-800">User</h1>
+            <p className="text-sm text-stone-600">Patient</p>
           </div>
         </div>
 
@@ -227,8 +220,8 @@ const PatientDashboard = () => {
               onClick={() => setActiveTab(item.id)}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
                 activeTab === item.id
-                  ? 'bg-teal-400 text-white font-bold'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-[#98D8C8] text-stone-800 font-bold'
+                  : 'text-stone-700 hover:bg-[#98D8C8]'
               }`}
             >
               <item.icon className="w-5 h-5" />
@@ -237,8 +230,7 @@ const PatientDashboard = () => {
           ))}
         </nav>
 
-        {/* Stats Card */}
-        <div className="bg-green-600 p-6 rounded-lg text-white">
+        <div className="bg-[#7FB069] p-6 rounded-lg text-white">
           <h3 className="text-lg font-bold mb-2">Streak</h3>
           <div className="flex items-center justify-between mb-4">
             <span className="text-3xl font-bold">12</span>
@@ -255,7 +247,6 @@ const PatientDashboard = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="flex-1 p-8">
         {renderContent()}
       </div>
