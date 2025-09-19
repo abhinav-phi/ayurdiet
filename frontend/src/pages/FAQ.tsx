@@ -130,7 +130,6 @@ const FAQ = () => {
 
   return (
     <div className="pt-16 pb-20">
-      {/* Hero Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 via-teal-50 to-blue-50">
         <div className="max-w-7xl mx-auto text-center">
           <div className="space-y-6">
@@ -152,10 +151,8 @@ const FAQ = () => {
         </div>
       </section>
 
-      {/* Search and Filters */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {/* Search Bar */}
           <div className="max-w-2xl mx-auto mb-12">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -171,7 +168,6 @@ const FAQ = () => {
             </div>
           </div>
 
-          {/* Category Filters */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             {categories.map((category) => (
               <button
@@ -191,7 +187,6 @@ const FAQ = () => {
         </div>
       </section>
 
-      {/* FAQ Items */}
       <section className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           {filteredFAQs.length === 0 ? (
@@ -241,7 +236,6 @@ const FAQ = () => {
         </div>
       </section>
 
-      {/* Still Have Questions */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-green-600 to-teal-600">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h2 className="text-3xl md:text-4xl font-bold text-white">
