@@ -6,7 +6,6 @@ const Home = () => {
     <div className="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
       <div className="layout-container flex h-full grow flex-col">
         <main className="flex-1">
-          {/* Hero Section */}
           <section className="relative hero-pattern text-gray-800 py-32 px-10 overflow-hidden">
             <span className="material-symbols-outlined leaf-pattern text-[20rem] -top-16 -left-20 transform -rotate-45">eco</span>
             <span className="material-symbols-outlined leaf-pattern text-[15rem] top-1/2 -right-16 transform rotate-12">eco</span>
@@ -35,7 +34,6 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Key Features Section */}
           <section className="py-20 px-4 bg-white">
             <div className="mx-auto max-w-6xl">
               <div className="text-center mb-12">
@@ -77,7 +75,6 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Stats Section */}
           <section className="py-20 px-4">
             <div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <div className="bg-white/80 p-8 rounded-lg shadow-lg">
@@ -95,7 +92,6 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Comparison Section */}
           <section className="bg-white py-20 px-4">
             <div className="mx-auto max-w-7xl">
               <div className="text-center mb-16">
@@ -161,7 +157,6 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Privacy & Security Section */}
           <section className="bg-warm-beige/70 py-20 px-4">
             <div className="mx-auto max-w-6xl text-center">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">Privacy & Security First</h2>
