@@ -21,7 +21,6 @@ const DieticianLogin = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            // Your backend expects 'email' and 'password' keys in the body
             body: JSON.stringify({
                 email: formData.identifier,
                 password: formData.password
@@ -31,7 +30,6 @@ const DieticianLogin = () => {
         const data = await response.json();
 
         if (!response.ok) {
-            // Handle errors from the server (e.g., 401 Invalid credentials)
             throw new Error(data.error || 'Login failed. Please try again.');
         }
 
