@@ -136,7 +136,6 @@ const Services = () => {
     <div className="bg-[#F5F5DC] min-h-screen">
       <main className="flex-1 px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="max-w-7xl mx-auto">
-          {/* Hero Section */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-extrabold text-stone-800 tracking-tight">
               Services & Pricing
@@ -146,7 +145,6 @@ const Services = () => {
             </p>
           </div>
 
-          {/* Services Overview */}
           <section className="mb-20">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-stone-800 tracking-tight mb-4">
@@ -179,9 +177,7 @@ const Services = () => {
             </div>
           </section>
 
-          {/* Pricing Section */}
           <section>
-            {/* Tab Navigation */}
             <div className="flex justify-center mb-8">
               <div className="bg-white rounded-lg p-1 shadow-sm border border-stone-200">
                 <button
@@ -207,7 +203,6 @@ const Services = () => {
               </div>
             </div>
 
-            {/* Patients Pricing */}
             {selectedTab === 'patients' && (
               <div className="mb-16">
                 <div className="text-center mb-10">
@@ -258,7 +253,6 @@ const Services = () => {
               </div>
             )}
 
-            {/* Practitioners Pricing */}
             {selectedTab === 'practitioners' && (
               <div>
                 <div className="text-center mb-10">
