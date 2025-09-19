@@ -83,7 +83,6 @@ const Features = () => {
   return (
     <div className="bg-[#F5F5DC] min-h-screen" style={{fontFamily: 'Manrope, "Noto Sans", sans-serif'}}>
       <div className="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
-        {/* Decorative background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="leaf leaf-1"></div>
           <div className="leaf leaf-2"></div>
@@ -95,7 +94,6 @@ const Features = () => {
           <main className="px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-10 lg:py-20">
             <div className="layout-content-container flex flex-col max-w-6xl flex-1 gap-16">
               
-              {/* Hero Section */}
               <section className="text-center flex flex-col items-center gap-4">
                 <h1 className="text-stone-800 tracking-tight text-4xl md:text-5xl font-bold leading-tight">
                   Powerful Features for Modern Wellness
@@ -106,7 +104,6 @@ const Features = () => {
                 </p>
               </section>
               
-              {/* Patient Features */}
               <section>
                 <h2 className="text-stone-800 text-3xl font-bold leading-tight tracking-tight text-center mb-8">
                   A Personalized Path to Wellness
@@ -135,7 +132,6 @@ const Features = () => {
                 </div>
               </section>
               
-              {/* Practitioner Features */}
               <section>
                 <h2 className="text-stone-800 text-3xl font-bold leading-tight tracking-tight text-center mb-8">
                   Streamline Your Practice, Elevate Your Care
@@ -164,7 +160,6 @@ const Features = () => {
                 </div>
               </section>
               
-              {/* Comparison Table */}
               <section className="bg-white rounded-xl p-8 lg:p-12 shadow-lg">
                 <h2 className="text-stone-800 text-3xl font-bold leading-tight tracking-tight text-center mb-8">
                   The AyurDiet Advantage
