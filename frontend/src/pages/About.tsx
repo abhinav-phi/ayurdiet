@@ -37,6 +37,24 @@ const About = () => {
       role: "---",
       image: "https://images.unsplash.com/photo",
       description: "===="
+    },
+    {
+      name: "--",
+      role: "---",
+      image: "https://images.unsplash.com/photo",
+      description: "===="
+    },
+    {
+      name: "--",
+      role: "---",
+      image: "https://images.unsplash.com/photo",
+      description: "===="
+    },
+    {
+      name: "--",
+      role: "---",
+      image: "https://images.unsplash.com/photo",
+      description: "===="
     }
   ];
 
@@ -47,7 +65,6 @@ const About = () => {
           <main className="px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-10 lg:py-20">
             <div className="layout-content-container flex flex-col max-w-5xl flex-1 gap-12">
               
-              {/* Hero Section */}
               <section className="text-center flex flex-col items-center gap-4">
                 <h1 className="text-stone-800 tracking-tight text-4xl md:text-5xl font-bold leading-tight">
                   About AyurDiet
@@ -60,7 +77,6 @@ const About = () => {
                 </p>
               </section>
 
-              {/* Values Section */}
               <section>
                 <h2 className="text-stone-800 text-3xl font-bold leading-tight tracking-tight text-center mb-8">
                   Our Values
@@ -87,7 +103,6 @@ const About = () => {
                 </div>
               </section>
 
-              {/* Team Section */}
               <section>
                 <h2 className="text-stone-800 text-3xl font-bold leading-tight tracking-tight text-center mb-8">
                   Meet the Team
@@ -122,7 +137,6 @@ const About = () => {
                 </p>
               </section>
 
-              {/* Approach Section */}
               <section className="bg-white rounded-xl p-8 lg:p-12 shadow-lg">
                 <div className="flex flex-col lg:flex-row items-center gap-8">
                   <div className="lg:w-1/2">
