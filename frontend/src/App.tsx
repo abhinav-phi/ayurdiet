@@ -42,7 +42,6 @@ function App() {
         <Header />
         <main className="flex-1">
           <Routes>
-            {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/features" element={<Features />} />
