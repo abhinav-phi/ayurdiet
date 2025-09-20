@@ -14,7 +14,7 @@ This README provides an overview of the project, including team details, relevan
 - **MEMBER_2** - 2024UCS1724 - [@USERNAME](https://github.com/USERNAME)
 - **MEMBER_3** - 2024UCS1671 - [@USERNAME](https://github.com/USERNAME)
 - **MEMBER_4** - 2024UCS1744 - [@USERNAME](https://github.com/USERNAME)
-- **MEMBER_5** - 2024UCS1715 - [@USERNAME](https://github.com/USERNAME)
+- **MEMBER_5** - 2024UCS1715 - [@USERNAME](https://github.com/debug-aditya)
 - **MEMBER_6** - 2024UBT - [@USERNAME](https://github.com/USERNAME)
 
 ## Project Links
