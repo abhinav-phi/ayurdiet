@@ -6,16 +6,16 @@ This README provides an overview of the project, including team details, relevan
 
 **Team Name:** TEAM_NAME_HERE
 
-**Team Leader:** [@USERNAME](https://github.com/USERNAME)
+**Team Leader:** [@abhinav-phi](https://github.com/abhinav-phi)
 
 **Team Members:**
 
-- **MEMBER_1** - ROLL_NUMBER - [@USERNAME](https://github.com/USERNAME)
-- **MEMBER_2** - ROLL_NUMBER - [@USERNAME](https://github.com/USERNAME)
-- **MEMBER_3** - ROLL_NUMBER - [@USERNAME](https://github.com/USERNAME)
-- **MEMBER_4** - ROLL_NUMBER - [@USERNAME](https://github.com/USERNAME)
-- **MEMBER_5** - ROLL_NUMBER - [@USERNAME](https://github.com/USERNAME)
-- **MEMBER_6** - ROLL_NUMBER - [@USERNAME](https://github.com/USERNAME)
+- **MEMBER_1** - 2024UCS1674 - [@USERNAME](https://github.com/USERNAME)
+- **MEMBER_2** - 2024UCS1724 - [@USERNAME](https://github.com/USERNAME)
+- **MEMBER_3** - 2024UCS1671 - [@USERNAME](https://github.com/USERNAME)
+- **MEMBER_4** - 2024UCS1744 - [@USERNAME](https://github.com/USERNAME)
+- **MEMBER_5** - 2024UCS1715 - [@USERNAME](https://github.com/USERNAME)
+- **MEMBER_6** - 2024UBT - [@USERNAME](https://github.com/USERNAME)
 
 ## Project Links
 
