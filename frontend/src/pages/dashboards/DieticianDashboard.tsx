@@ -3,11 +3,35 @@ import {
   Home, Users, FileText, Database, BarChart3, 
   Calendar, CreditCard, Settings, Plus, Search,
   Bell, User, LogOut, TrendingUp, Target,
-  MessageCircle, Video, CheckCircle, AlertCircle
+  MessageCircle, Video, CheckCircle, AlertCircle,
+  Trash2, ArrowLeft
 } from 'lucide-react';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const DieticianDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [showDietPlanGenerator, setShowDietPlanGenerator] = useState(false);
+
+  const [patientInfo, setPatientInfo] = useState({
+    name: '',
+    id: '',
+    dosha: 'Vata',
+    prakriti: '',
+    vikruti: ''
+  });
+
+  const [meals, setMeals] = useState({
+    breakfast: [{ food: 'Warm Spiced Oatmeal', quantity: '1 bowl', preparation: 'Cook with water, add cardamom and ginger' }],
+    lunch: [
+      { food: 'Kitchari', quantity: '1.5 cups', preparation: 'Made with split mung beans, basmati rice, and seasonal vegetables.' },
+      { food: 'Steamed Asparagus', quantity: '1/2 cup', preparation: 'Lightly steamed with a pinch of black pepper.' }
+    ],
+    dinner: [{ food: 'Vegetable Soup', quantity: '1 large bowl', preparation: 'Well-cooked root vegetables in a light broth.' }],
+    snacks: [{ food: 'Stewed Apple', quantity: '1 apple', preparation: 'Stewed with a pinch of cinnamon.' }]
+  });
+
+  const [notes, setNotes] = useState('');
 
   const sidebarItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
@@ -41,6 +65,332 @@ const DieticianDashboard = () => {
     { name: 'Ghee', dosha: 'Tridoshic', properties: 'Nourishing, Oily', category: 'Dairy' },
     { name: 'Mango', dosha: 'Pitta Pacifying', properties: 'Sweet, Cooling', category: 'Fruit' }
   ];
+
+  const addMealItem = (mealType) => {
+    setMeals(prev => ({
+      ...prev,
+      [mealType]: [...prev[mealType], { food: '', quantity: '', preparation: '' }]
+    }));
+  };
+
+  const removeMealItem = (mealType, index) => {
+    setMeals(prev => ({
+      ...prev,
+      [mealType]: prev[mealType].filter((_, i) => i !== index)
+    }));
+  };
+
+  const updateMealItem = (mealType, index, field, value) => {
+    setMeals(prev => ({
+      ...prev,
+      [mealType]: prev[mealType].map((item, i) => 
+        i === index ? { ...item, [field]: value } : item
+      )
+    }));
+  };
+
+  const handlePatientInfoChange = (field, value) => {
+    setPatientInfo(prev => ({ ...prev, [field]: value }));
+  };
+
+  const exportToPDF = () => {
+    const pdfContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Diet Plan - ${patientInfo.name}</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+          .header { text-align: center; border-bottom: 2px solid #7FB069; padding-bottom: 20px; margin-bottom: 30px; }
+          .patient-info { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+          .meal-section { margin-bottom: 30px; }
+          .meal-title { color: #7FB069; font-size: 18px; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px; }
+          .meal-item { margin-bottom: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+          .notes-section { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 30px; }
+          table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+          th, td { text-align: left; padding: 8px; border-bottom: 1px solid #ddd; }
+          th { background-color: #7FB069; color: white; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>Ayurvedic Diet Plan</h1>
+          <p>Prepared by Dr. Anya Sharma | Ayurvedic Practitioner</p>
+        </div>
+        
+        <div class="patient-info">
+          <h2>Patient Information</h2>
+          <table>
+            <tr><th>Name:</th><td>${patientInfo.name}</td></tr>
+            <tr><th>Patient ID:</th><td>${patientInfo.id}</td></tr>
+            <tr><th>Dosha:</th><td>${patientInfo.dosha}</td></tr>
+            <tr><th>Prakriti:</th><td>${patientInfo.prakriti || 'Not specified'}</td></tr>
+            <tr><th>Vikruti:</th><td>${patientInfo.vikruti || 'Not specified'}</td></tr>
+          </table>
+        </div>
+
+        ${Object.entries(meals).map(([mealType, items]) => `
+          <div class="meal-section">
+            <h3 class="meal-title">${mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h3>
+            ${items.map(item => `
+              <div class="meal-item">
+                <strong>${item.food}</strong> - ${item.quantity}<br>
+                <em>Preparation: ${item.preparation}</em>
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+
+        ${notes ? `
+          <div class="notes-section">
+            <h3>Additional Notes & Guidelines</h3>
+            <p>${notes}</p>
+          </div>
+        ` : ''}
+
+        <div style="margin-top: 50px; text-align: center; color: #666; font-size: 12px;">
+          <p>Generated on ${new Date().toLocaleDateString()}</p>
+          <p>This diet plan is personalized based on Ayurvedic principles. Please follow the recommendations and consult if you have any concerns.</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const blob = new Blob([pdfContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Diet_Plan_${patientInfo.name || 'Patient'}_${new Date().toISOString().split('T')[0]}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    alert('Diet plan exported successfully! The file will be downloaded as an HTML file that can be printed as PDF.');
+  };
+
+  const renderMealSection = (mealType, title, mealData) => (
+    <div className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-[#7FB069]">{title}</h3>
+        <button 
+          onClick={() => addMealItem(mealType)}
+          className="flex items-center justify-center px-3 py-2 bg-white text-[#374151] border border-[#E5E7EB] text-xs font-semibold rounded-lg shadow-sm hover:bg-gray-50 transition-all"
+        >
+          Add Item
+        </button>
+      </div>
+      <div className="space-y-4">
+        {mealData.map((item, index) => (
+          <div key={index} className="grid grid-cols-12 gap-4 items-end">
+            <div className="col-span-4">
+              {index === 0 && <label className="block text-sm font-medium text-gray-700 mb-1">Food Recommendation</label>}
+              <input
+                className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                type="text"
+                value={item.food}
+                onChange={(e) => updateMealItem(mealType, index, 'food', e.target.value)}
+                placeholder="e.g., Oatmeal with cinnamon"
+              />
+            </div>
+            <div className="col-span-2">
+              {index === 0 && <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>}
+              <input
+                className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                type="text"
+                value={item.quantity}
+                onChange={(e) => updateMealItem(mealType, index, 'quantity', e.target.value)}
+                placeholder="e.g., 1 cup"
+              />
+            </div>
+            <div className="col-span-5">
+              {index === 0 && <label className="block text-sm font-medium text-gray-700 mb-1">Preparation</label>}
+              <input
+                className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                type="text"
+                value={item.preparation}
+                onChange={(e) => updateMealItem(mealType, index, 'preparation', e.target.value)}
+                placeholder="e.g., Cooked with almond milk"
+              />
+            </div>
+            <div className="col-span-1 flex items-end pb-2">
+              <button 
+                onClick={() => removeMealItem(mealType, index)}
+                className="text-gray-400 hover:text-red-500 transition-colors"
+              >
+                <Trash2 className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderDietPlanGenerator = () => (
+    <div className="min-h-screen bg-[#F5F5DC]" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <main className="p-8 overflow-y-auto">
+        <header className="mb-8 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setShowDietPlanGenerator(false)}
+              className="flex items-center justify-center p-2 text-[#374151] hover:bg-gray-100 rounded-lg transition-all"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <div>
+              <h1 className="text-3xl font-bold text-[#374151]">Diet Plan Generator</h1>
+              <p className="text-[#6B7280] mt-1">Create and manage personalized Ayurvedic diet plans for your patients.</p>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <button className="flex items-center justify-center px-4 py-2 bg-white text-[#374151] border border-[#E5E7EB] text-sm font-semibold rounded-lg shadow-sm hover:bg-gray-50 transition-all">
+              Save Draft
+            </button>
+            <button 
+              onClick={exportToPDF}
+              className="flex items-center justify-center px-4 py-2 bg-[#7FB069] text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-opacity-90 transition-all"
+            >
+              Export Plan
+            </button>
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <section className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Patient Information</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="patient-name">
+                    Patient Name
+                  </label>
+                  <input
+                    className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="patient-name"
+                    type="text"
+                    value={patientInfo.name}
+                    onChange={(e) => handlePatientInfoChange('name', e.target.value)}
+                    placeholder="e.g., Priya Patel"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="patient-id">
+                    Patient ID
+                  </label>
+                  <input
+                    className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="patient-id"
+                    type="text"
+                    value={patientInfo.id}
+                    onChange={(e) => handlePatientInfoChange('id', e.target.value)}
+                    placeholder="e.g., P0123"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Ayurvedic Principles</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="dosha">
+                    Dosha
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="dosha"
+                    value={patientInfo.dosha}
+                    onChange={(e) => handlePatientInfoChange('dosha', e.target.value)}
+                  >
+                    <option>Vata</option>
+                    <option>Pitta</option>
+                    <option>Kapha</option>
+                    <option>Vata-Pitta</option>
+                    <option>Vata-Kapha</option>
+                    <option>Pitta-Kapha</option>
+                    <option>Tridoshic</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="prakriti">
+                    Prakriti
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="prakriti"
+                    value={patientInfo.prakriti}
+                    onChange={(e) => handlePatientInfoChange('prakriti', e.target.value)}
+                  >
+                    <option value="">Select Prakriti</option>
+                    <option>Vata</option>
+                    <option>Pitta</option>
+                    <option>Kapha</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="vikruti">
+                    Vikruti
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="vikruti"
+                    value={patientInfo.vikruti}
+                    onChange={(e) => handlePatientInfoChange('vikruti', e.target.value)}
+                  >
+                    <option value="">Select Vikruti</option>
+                    <option>Vata</option>
+                    <option>Pitta</option>
+                    <option>Kapha</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Meal Components</h2>
+              <div className="space-y-6">
+                {renderMealSection('breakfast', 'Breakfast', meals.breakfast)}
+                {renderMealSection('lunch', 'Lunch', meals.lunch)}
+                {renderMealSection('dinner', 'Dinner', meals.dinner)}
+                {renderMealSection('snacks', 'Snacks', meals.snacks)}
+              </div>
+            </section>
+          </div>
+
+          <div className="lg:col-span-1 space-y-8">
+            <section className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Plan Notes</h2>
+              <textarea
+                className="w-full h-40 px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069] resize-none"
+                placeholder="Add general notes, guidelines, or lifestyle recommendations for the patient..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </section>
+
+            <section className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Plan Actions</h2>
+              <div className="space-y-3">
+                <button 
+                  onClick={exportToPDF}
+                  className="w-full flex items-center justify-center px-4 py-2 bg-[#7FB069] text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-opacity-90 transition-all"
+                >
+                  Generate & Send to Patient
+                </button>
+                <button className="w-full flex items-center justify-center px-4 py-2 bg-white text-[#374151] border border-[#E5E7EB] text-sm font-semibold rounded-lg shadow-sm hover:bg-gray-50 transition-all">
+                  Save as Template
+                </button>
+                <button className="w-full flex items-center justify-center px-4 py-2 bg-white text-red-600 border border-red-200 hover:bg-red-50 text-sm font-semibold rounded-lg shadow-sm transition-all">
+                  Discard Plan
+                </button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
 
   const renderDashboard = () => (
     <div className="space-y-8">
@@ -116,7 +466,7 @@ const DieticianDashboard = () => {
               />
             </div>
             <button 
-              onClick={() => window.location.href = '/dietician/diet-plan-generator'}
+              onClick={() => setShowDietPlanGenerator(true)}
               className="w-full bg-[#7FB069] text-white font-bold py-2 px-4 rounded-md hover:bg-[#6ea055] transition-colors"
             >
               Generate Diet Plan
@@ -392,7 +742,7 @@ const DieticianDashboard = () => {
                       <button className="text-[#7FB069] hover:text-stone-800">View</button>
                       <button className="text-[#7FB069] hover:text-stone-800">Edit</button>
                       <button 
-                        onClick={() => window.location.href = '/dietician/diet-plan-generator'}
+                        onClick={() => setShowDietPlanGenerator(true)}
                         className="text-[#7FB069] hover:text-stone-800"
                       >
                         Diet Plan
@@ -409,6 +759,10 @@ const DieticianDashboard = () => {
   );
 
   const renderContent = () => {
+    if (showDietPlanGenerator) {
+      return renderDietPlanGenerator();
+    }
+
     switch (activeTab) {
       case 'dashboard': return renderDashboard();
       case 'patients': return renderPatients();
@@ -423,39 +777,41 @@ const DieticianDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F5DC] flex">
-      <aside className="flex-shrink-0 w-64 bg-[#F5F5DC] p-6 border-r border-stone-300">
-        <div className="flex items-center gap-3 mb-8">
-          <div 
-            className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
-            style={{
-              backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAL6LCXZXnGqZqY_Y-T1BepYlhu15Uoxz7voeVKNX7bt8zzsXHucUfWjgic9llY85L2X8YWS9EslXZRbwGKiVqpw7yCmLEXMenVtKnA3XgL7njOfaEl5KM7HWeAMSNwNx_od_QBcJ4GW9qqQ2rtEZ4ZjI3C7c71_KjTXP59KY6NR-saxpXwGl12dMfUIRGOqYvAYlK5lRleBCMrztrOjYxEdeTPiwLbckhwAMZNIb4ES6HgNBqSg3Wp1EMKa6xou52RUGqb8N1vrYUm")'
-            }}
-          ></div>
-          <div>
-            <h1 className="text-stone-800 text-base font-bold">Dr. Anya Sharma</h1>
-            <p className="text-stone-600 text-sm">Ayurvedic Practitioner</p>
+      {!showDietPlanGenerator && (
+        <aside className="flex-shrink-0 w-64 bg-[#F5F5DC] p-6 border-r border-stone-300">
+          <div className="flex items-center gap-3 mb-8">
+            <div 
+              className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+              style={{
+                backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAL6LCXZXnGqZqY_Y-T1BepYlhu15Uoxz7voeVKNX7bt8zzsXHucUfWjgic9llY85L2X8YWS9EslXZRbwGKiVqpw7yCmLEXMenVtKnA3XgL7njOfaEl5KM7HWeAMSNwNx_od_QBcJ4GW9qqQ2rtEZ4ZjI3C7c71_KjTXP59KY6NR-saxpXwGl12dMfUIRGOqYvAYlK5lRleBCMrztrOjYxEdeTPiwLbckhwAMZNIb4ES6HgNBqSg3Wp1EMKa6xou52RUGqb8N1vrYUm")'
+              }}
+            ></div>
+            <div>
+              <h1 className="text-stone-800 text-base font-bold">Dr. Anya Sharma</h1>
+              <p className="text-stone-600 text-sm">Ayurvedic Practitioner</p>
+            </div>
           </div>
-        </div>
 
-        <nav className="flex flex-col gap-2">
-          {sidebarItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`flex items-center gap-3 px-4 py-2 rounded-md font-semibold ${
-                activeTab === item.id
-                  ? 'bg-[#98D8C8] text-stone-800'
-                  : 'text-stone-600 hover:bg-[#98D8C8] hover:text-stone-800'
-              }`}
-            >
-              <item.icon className="w-5 h-5" />
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </nav>
-      </aside>
+          <nav className="flex flex-col gap-2">
+            {sidebarItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`flex items-center gap-3 px-4 py-2 rounded-md font-semibold ${
+                  activeTab === item.id
+                    ? 'bg-[#98D8C8] text-stone-800'
+                    : 'text-stone-600 hover:bg-[#98D8C8] hover:text-stone-800'
+                }`}
+              >
+                <item.icon className="w-5 h-5" />
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </nav>
+        </aside>
+      )}
 
-      <main className="flex-1 p-8">
+      <main className={`${showDietPlanGenerator ? 'flex-1' : 'flex-1 p-8'}`}>
         {renderContent()}
       </main>
     </div>
