@@ -568,7 +568,7 @@ const PatientDashboard = () => {
   const renderHome = () => (
     <div className="grid grid-cols-3 grid-rows-[auto_1fr_1fr] gap-8 h-full">
       <div className="col-span-3">
-        <h1 className="text-4xl font-bold text-stone-800 mb-2">Welcome back, Sophia</h1>
+        <h1 className="text-4xl font-bold text-stone-800 mb-2">Welcome back, User</h1>
         <p className="text-stone-600">Here's a look at your personalized Ayurvedic journey today.</p>
       </div>
 
