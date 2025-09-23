@@ -4,27 +4,25 @@ This README provides an overview of the project, including team details, relevan
 
 ## Team Details
 
-**Team Name:** TEAM_NAME_HERE
+**Team Name:** CODE BRIGADE
 
 **Team Leader:** [@abhinav-phi](https://github.com/abhinav-phi)
 
 **Team Members:**
 
-- **MEMBER_1** - 2024UCS1674 - [@USERNAME](https://github.com/USERNAME)
-- **MEMBER_2** - 2024UCS1724 - [@USERNAME](https://github.com/USERNAME)
-- **MEMBER_3** - 2024UCS1671 - [@USERNAME](https://github.com/USERNAME)
-- **MEMBER_4** - 2024UCS1744 - [@USERNAME](https://github.com/USERNAME)
+- **MEMBER_1** - 2024UCS1674 - [@USERNAME](https://github.com/abhinav-phi)
+- **MEMBER_2** - 2024UCS1724 - [@USERNAME](https://github.com/kakashi1509b)
+- **MEMBER_3** - 2024UCS1671 - [@USERNAME](https://github.com/Kashish100-max)
+- **MEMBER_4** - 2024UCS1744 - [@USERNAME](https://github.com/f16reshik)
 - **MEMBER_5** - 2024UCS1715 - [@USERNAME](https://github.com/debugaditya)
-- **MEMBER_6** - 2024UBT - [@USERNAME](https://github.com/USERNAME)
+- **MEMBER_6** - 2024UBT1072 - [@USERNAME](https://github.com/theisha761)
 
 ## Project Links
 
-- **SIH Presentation:** [Final SIH Presentation](URL TO PPT UPLOADED TO GITHUB)
-- **Video Demonstration:** [Watch Video](UNLISTED YOUTUBE LINK)
-- **Live Deployment:** [View Deployment](DEPLOYED LINK IF ANY)
-- **Source Code:** [GitHub Repository](GITHUB LINK TO THE REPO)
-- **Additional Resources:** [Other Relevant Links](ANY OTHER RELEVANT LINKS)
-
+- **SIH Presentation:** [Final SIH Presentation](https://nsutacin-my.sharepoint.com/:p:/g/personal/abhinav_ug24_nsut_ac_in/EZviQbIz_8NLhD6hh4ESWNUBuPngleMhjZGO5HNm8xhrRg?e=cDnIh2)
+- **Video Demonstration:** [Watch Video](https://youtu.be/SvKHmuiYuBI)
+- **Live Deployment:** [View Deployment](ayurdiethealth.vercel.app/)
+- **Source Code:** [GitHub Repository](https://github.com/abhinav-phi/ayurdiet)
 
 ## Tasks Accomplished
 
@@ -36,7 +34,21 @@ This README provides an overview of the project, including team details, relevan
 
 This project leverages the following technologies:
 
-- **[NAME](WEBSITE):** One Line on why you chose this tech and what it is used for.
+- **[React](https://react.dev):** Component-based library chosen for building interactive user interfaces and managing complex state in the AYURDIET platform.
+- **[Next.js](https://nextjs.org):** Full-stack React framework selected for server-side rendering, API routes, and optimized performance for the web application.
+- **[TypeScript](https://www.typescriptlang.org):** Strongly-typed JavaScript superset used to ensure code reliability and better developer experience with compile-time error checking.
+- **[Vite](https://vitejs.dev):** Fast build tool chosen for instant Hot Module Replacement and optimized development workflow.
+- **[TailwindCSS](https://tailwindcss.com):** Utility-first CSS framework selected for rapid UI development and consistent responsive design patterns.
+- **[PostCSS](https://postcss.org):** CSS processing tool used for transforming and optimizing stylesheets with autoprefixing capabilities.
+- **[ESLint](https://eslint.org):** JavaScript linting utility implemented to maintain code quality and consistent coding standards across the project.
+- **[Node.js](https://nodejs.org):** JavaScript runtime environment powering the backend server and enabling full-stack development capabilities.
+- **[Express.js](https://expressjs.com):** Minimalist web framework chosen for building robust RESTful APIs and handling server-side logic.
+- **[bcrypt](https://www.npmjs.com/package/bcrypt):** Secure password hashing library used for implementing safe user authentication and data protection.
+- **[Supabase](https://supabase.com):** Open-source Backend-as-a-Service chosen for instant PostgreSQL APIs, real-time subscriptions, and authentication services.
+- **[PostgreSQL](https://www.postgresql.org):** Advanced relational database selected as the primary data store for handling complex Ayurvedic nutrition data and user profiles.
+- **[Vercel](https://vercel.com):** Cloud deployment platform chosen for seamless CI/CD, global edge distribution, and optimized hosting for Next.js applications.
+- **[Google Generative AI](https://ai.google.dev):** Machine learning platform integrated to power AI-driven Ayurvedic nutrition recommendations and personalized dietary suggestions.
+
 
 ## Key Features
 
