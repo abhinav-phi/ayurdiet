@@ -52,9 +52,9 @@ This project leverages the following technologies:
 
 ## Key Features
 
-- **Feature 1:** One Line description of Feature 1.
-- **Feature 2:** One Line description of Feature 2.
-- **Feature 3:** One Line description of Feature 3.
+- **Database:**  India's first database combining modern nutritional data with Ayurvedic dosha classifications.
+- **Personalization:** Personalizes diets and lifestyle recommendations based on an individual's unique prakriti.
+- **Checker:** Ensures all meal recommendations consist of Ayurvedic-approved food combinations.
 
 ## Local Setup Instructions (Write for both windows and macos)
 
