@@ -10,12 +10,12 @@ This README provides an overview of the project, including team details, relevan
 
 **Team Members:**
 
-- **MEMBER_1** - 2024UCS1674 - [@USERNAME](https://github.com/abhinav-phi)
-- **MEMBER_2** - 2024UCS1724 - [@USERNAME](https://github.com/kakashi1509b)
-- **MEMBER_3** - 2024UCS1671 - [@USERNAME](https://github.com/Kashish100-max)
-- **MEMBER_4** - 2024UCS1744 - [@USERNAME](https://github.com/f16reshik)
-- **MEMBER_5** - 2024UCS1715 - [@USERNAME](https://github.com/debugaditya)
-- **MEMBER_6** - 2024UBT1072 - [@USERNAME](https://github.com/theisha761)
+- **MEMBER_1** - 2024UCS1674 - [@abhinav](https://github.com/abhinav-phi)
+- **MEMBER_2** - 2024UCS1724 - [@bharat](https://github.com/kakashi1509b)
+- **MEMBER_3** - 2024UCS1671 - [@kashish](https://github.com/Kashish100-max)
+- **MEMBER_4** - 2024UCS1744 - [@reshik](https://github.com/f16reshik)
+- **MEMBER_5** - 2024UCS1715 - [@aditya](https://github.com/debugaditya)
+- **MEMBER_6** - 2024UBT1072 - [@disha](https://github.com/theisha761)
 
 ## Project Links
 
