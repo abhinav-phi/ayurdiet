@@ -26,9 +26,9 @@ This README provides an overview of the project, including team details, relevan
 
 ## Tasks Accomplished
 
-- [x] **Task 1:** Description of Task 1 (if needed)
-- [x] **Task 2:** Description of Task 2 (if needed)
-- [x] **Task 3:** Description of Task 3 (if needed)
+- [x] **Automation:** Created an automated diet chart generation system that produces nutritionally balanced, Ayurveda-compliant plans in an organized format.
+- [x] **Synthesis:** Integrated modern nutritional metrics (macro and micro-nutrients, caloric values) with traditional Ayurvedic concepts
+- [x] **Integration:** Implemented Ayurvedic dietary principles integration including food properties (Hot/Cold, Easy/Difficult to digest) and six tastes (Rasa) classification.Implemented Ayurvedic dietary principles integration including food properties (Hot/Cold, Easy/Difficult to digest) and six tastes (Rasa) classification.
 
 ## Technology Stack
 
@@ -52,9 +52,9 @@ This project leverages the following technologies:
 
 ## Key Features
 
-- **Feature 1:** One Line description of Feature 1.
-- **Feature 2:** One Line description of Feature 2.
-- **Feature 3:** One Line description of Feature 3.
+- **Database:**  India's first database combining modern nutritional data with Ayurvedic dosha classifications.
+- **Personalization:** Personalizes diets and lifestyle recommendations based on an individual's unique prakriti.
+- **Checker:** Ensures all meal recommendations consist of Ayurvedic-approved food combinations.
 
 ## Local Setup Instructions (Write for both windows and macos)
 
