@@ -20,7 +20,6 @@
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Meal logged:', formData);
-        // Add your form submission logic here
     };
 
     return (
