@@ -207,7 +207,7 @@
         bgColor: 'bg-[#98D8C8]',
         textColor: 'text-[#98D8C8]',
         description: 'The energy of movement, associated with air and ether. Vata governs breathing, circulation, and nervous system functions. When balanced, Vata brings creativity and flexibility. When imbalanced, it can lead to anxiety and restlessness.',
-        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=320&fit=crop'
+        image: '/assets/vata.png'
         },
         {
         name: 'Pitta',
@@ -215,7 +215,7 @@
         bgColor: 'bg-[#7FB069]',
         textColor: 'text-[#7FB069]',
         description: 'The energy of transformation, associated with fire and water. Pitta governs digestion, metabolism, and body temperature. Balanced Pitta brings intelligence and ambition. Imbalanced Pitta can manifest as irritability and inflammation.',
-        image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=500&h=320&fit=crop'
+        image: '/assets/pita.png'
         },
         {
         name: 'Kapha',
@@ -223,24 +223,24 @@
         bgColor: 'bg-[#A0522D]',
         textColor: 'text-[#A0522D]',
         description: 'The energy of structure and stability, associated with earth and water. Kapha governs lubrication, immunity, and tissue growth. Balanced Kapha brings calmness and strength. Imbalanced Kapha can lead to lethargy and congestion.',
-        image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&h=320&fit=crop'
+        image: '/assets/kapha.jpg'
         }
     ];
 
     const tastes = [
-        { name: 'Sweet', description: 'Nourishing & grounding', image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=128&h=128&fit=crop' },
-        { name: 'Sour', description: 'Stimulating & hydrating', image: 'https://images.unsplash.com/photo-1571971420935-4221b6a9d888?w=128&h=128&fit=crop' },
-        { name: 'Salty', description: 'Moisturizing & grounding', image: 'https://images.unsplash.com/photo-1472476443507-c7a5948772fc?w=128&h=128&fit=crop' },
-        { name: 'Pungent', description: 'Light & warming', image: 'https://images.unsplash.com/photo-1563485881245-8f442da5a007?w=128&h=128&fit=crop' },
-        { name: 'Bitter', description: 'Cleansing & cooling', image: 'https://images.unsplash.com/photo-1618628447993-7ad02e4b6b08?w=128&h=128&fit=crop' },
-        { name: 'Astringent', description: 'Drying & toning', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=128&h=128&fit=crop' }
+        { name: 'Sweet', description: 'Nourishing & grounding', image: '/assets/sweet.png' },
+        { name: 'Sour', description: 'Stimulating & hydrating', image: '/assets/sour.png' },
+        { name: 'Salty', description: 'Moisturizing & grounding', image: '/assets/salty.png' },
+        { name: 'Pungent', description: 'Light & warming', image: '/assets/pungent.png' },
+        { name: 'Bitter', description: 'Cleansing & cooling', image: '/assets/bitter.png' },
+        { name: 'Astringent', description: 'Drying & toning', image: '/assets/astringent.png' }
     ];
 
     const seasons = [
-        { name: 'Summer', description: 'Focus on cooling and hydrating foods to balance the heat. Favor sweet, bitter, and astringent tastes.', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=160&fit=crop', icon: Sun },
-        { name: 'Autumn', description: 'Transition to grounding and warming foods. Emphasize sweet, sour, and salty tastes.', image: 'https://images.unsplash.com/photo-1505052444928-4b3d0b6b5d5d?w=200&h=160&fit=crop', icon: Leaf },
-        { name: 'Winter', description: 'Nourish with warming foods to combat the cold. Favor sweet, sour, and salty tastes.', image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=200&h=160&fit=crop', icon: Snowflake },
-        { name: 'Spring', description: 'Detoxify with lighter foods. Emphasize pungent, bitter, and astringent tastes.', image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=200&h=160&fit=crop', icon: Flower2 }
+        { name: 'Summer', description: 'Focus on cooling and hydrating foods to balance the heat. Favor sweet, bitter, and astringent tastes.', image: '/assets/summer.png', icon: Sun },
+        { name: 'Autumn', description: 'Transition to grounding and warming foods. Emphasize sweet, sour, and salty tastes.', image: '/assets/autumn.png', icon: Leaf },
+        { name: 'Winter', description: 'Nourish with warming foods to combat the cold. Favor sweet, sour, and salty tastes.', image: '/assets/winter.png', icon: Snowflake },
+        { name: 'Spring', description: 'Detoxify with lighter foods. Emphasize pungent, bitter, and astringent tastes.', image: '/assets/spring.png', icon: Flower2 }
     ];
 
     const handleAnswerSelect = (value: string) => {
