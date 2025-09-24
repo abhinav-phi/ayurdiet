@@ -303,13 +303,10 @@ const DieticianDashboard = () => {
                     value={patientInfo.dosha}
                     onChange={(e) => handlePatientInfoChange('dosha', e.target.value)}
                   >
+                    <option value="">Select Dosha</option>
                     <option>Vata</option>
                     <option>Pitta</option>
                     <option>Kapha</option>
-                    <option>Vata-Pitta</option>
-                    <option>Vata-Kapha</option>
-                    <option>Pitta-Kapha</option>
-                    <option>Tridoshic</option>
                   </select>
                 </div>
                 <div>
@@ -326,6 +323,10 @@ const DieticianDashboard = () => {
                     <option>Vata</option>
                     <option>Pitta</option>
                     <option>Kapha</option>
+                    <option>Vata-Pitta</option>
+                    <option>Vata-Kapha</option>
+                    <option>Pitta-Kapha</option>
+                    <option>Tridoshic</option>
                   </select>
                 </div>
                 <div>
@@ -342,6 +343,10 @@ const DieticianDashboard = () => {
                     <option>Vata</option>
                     <option>Pitta</option>
                     <option>Kapha</option>
+                    <option>Vata-Pitta</option>
+                    <option>Vata-Kapha</option>
+                    <option>Pitta-Kapha</option>
+                    <option>Tridoshic</option>
                   </select>
                 </div>
               </div>
@@ -588,59 +593,96 @@ const DieticianDashboard = () => {
           </div>
         </section>
 
-        <section>
-          <h2 className="text-2xl font-bold text-stone-800 mb-4">Appointments</h2>
-          <div className="bg-white p-4 rounded-lg border border-stone-300 shadow-lg">
-            <div className="flex items-center justify-between mb-4">
-              <button className="p-1 rounded-full hover:bg-gray-100">
-                <span className="text-xl">‹</span>
-              </button>
-              <h4 className="font-semibold text-lg">July 2024</h4>
-              <button className="p-1 rounded-full hover:bg-gray-100">
-                <span className="text-xl">›</span>
-              </button>
-            </div>
-            <div className="grid grid-cols-7 text-center text-sm">
-              <div className="font-semibold text-gray-500">S</div>
-              <div className="font-semibold text-gray-500">M</div>
-              <div className="font-semibold text-gray-500">T</div>
-              <div className="font-semibold text-gray-500">W</div>
-              <div className="font-semibold text-gray-500">T</div>
-              <div className="font-semibold text-gray-500">F</div>
-              <div className="font-semibold text-gray-500">S</div>
-              <div className="col-start-4">1</div>
-              <div>2</div>
-              <div>3</div>
-              <div>4</div>
-              <div className="bg-[#7FB069] text-white font-bold rounded-full w-8 h-8 mx-auto flex items-center justify-center">5</div>
-              <div>6</div>
-              <div>7</div>
-              <div>8</div>
-              <div>9</div>
-              <div>10</div>
-              <div>11</div>
-              <div>12</div>
-              <div>13</div>
-              <div>14</div>
-              <div>15</div>
-              <div>16</div>
-              <div>17</div>
-              <div>18</div>
-              <div>19</div>
-              <div>20</div>
-              <div>21</div>
-              <div>22</div>
-              <div>23</div>
-              <div>24</div>
-              <div>25</div>
-              <div>26</div>
-              <div>27</div>
-              <div>28</div>
-              <div>29</div>
-              <div>30</div>
-            </div>
+<section>
+  <h2 className="text-2xl font-bold text-stone-800 mb-4">Appointments</h2>
+  <div className="bg-white p-4 rounded-lg border border-stone-300 shadow-lg">
+    <div className="flex items-center justify-between mb-4">
+      <button className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
+        <span className="text-xl text-gray-600 hover:text-gray-800">‹</span>
+      </button>
+      <h4 className="font-semibold text-lg text-stone-800">September 2025</h4>
+      <button className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
+        <span className="text-xl text-gray-600 hover:text-gray-800">›</span>
+      </button>
+    </div>
+    
+    <div className="grid grid-cols-7 gap-1 text-center text-sm">
+      {/* Day Headers */}
+      <div className="font-semibold text-gray-500 py-2">S</div>
+      <div className="font-semibold text-gray-500 py-2">M</div>
+      <div className="font-semibold text-gray-500 py-2">T</div>
+      <div className="font-semibold text-gray-500 py-2">W</div>
+      <div className="font-semibold text-gray-500 py-2">T</div>
+      <div className="font-semibold text-gray-500 py-2">F</div>
+      <div className="font-semibold text-gray-500 py-2">S</div>
+      
+      {/* Calendar Days */}
+      {/* Empty cells for start of month */}
+      <div></div>
+      <div></div>
+      <div></div>
+      
+      {/* Days 1-30 */}
+      {[...Array(30)].map((_, i) => {
+        const day = i + 1;
+        const isToday = day === 25; // Current date
+        const hasAppointment = [5, 12, 18, 26].includes(day); // Days with appointments
+        const isWeekend = (day + 2) % 7 === 0 || (day + 3) % 7 === 0; // Saturday/Sunday
+        
+        return (
+          <div
+            key={day}
+            className={`
+              relative w-8 h-8 mx-auto flex items-center justify-center rounded-full cursor-pointer
+              transition-all duration-200 ease-in-out
+              ${isToday 
+                ? 'bg-[#7FB069] text-white font-bold ring-2 ring-[#98D8C8] ring-offset-1' 
+                : hasAppointment 
+                ? 'bg-[#98D8C8] text-stone-800 font-semibold hover:bg-[#7FB069] hover:text-white hover:scale-110' 
+                : isWeekend 
+                ? 'text-gray-400 hover:bg-gray-100 hover:text-gray-600'
+                : 'text-stone-700 hover:bg-[#F5F5DC] hover:text-stone-900 hover:scale-105'
+              }
+            `}
+          >
+            {day}
+            {hasAppointment && !isToday && (
+              <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#7FB069] rounded-full"></div>
+            )}
           </div>
-        </section>
+        );
+      })}
+    </div>
+    
+    {/* Legend */}
+    <div className="mt-4 flex items-center justify-center gap-4 text-xs text-gray-600">
+      <div className="flex items-center gap-1">
+        <div className="w-3 h-3 bg-[#7FB069] rounded-full"></div>
+        <span>Today</span>
+      </div>
+      <div className="flex items-center gap-1">
+        <div className="w-3 h-3 bg-[#98D8C8] rounded-full"></div>
+        <span>Appointments</span>
+      </div>
+    </div>
+    
+    {/* Upcoming Appointments Preview */}
+    <div className="mt-4 pt-3 border-t border-gray-200">
+      <h5 className="text-sm font-semibold text-stone-800 mb-2">Upcoming Appointments</h5>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-gray-600">Sep 26 - 10:00 AM</span>
+          <span className="text-[#7FB069] font-medium">Follow-up</span>
+        </div>
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-gray-600">Sep 28 - 2:30 PM</span>
+          <span className="text-[#7FB069] font-medium">New Patient</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
       </div>
     </div>
   );
