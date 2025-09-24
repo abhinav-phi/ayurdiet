@@ -21,7 +21,6 @@
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Journal entry saved:', formData);
-        // Add your form submission logic here
     };
 
     return (
