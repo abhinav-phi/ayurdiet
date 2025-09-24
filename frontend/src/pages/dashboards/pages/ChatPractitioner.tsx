@@ -1,197 +1,821 @@
-    import React, { useState } from 'react';
+import React, { useState } from 'react';
+import { 
+  Home, Users, FileText, Database, BarChart3, 
+  Calendar, CreditCard, Settings, Plus, Search,
+  Bell, User, LogOut, TrendingUp, Target,
+  MessageCircle, Video, CheckCircle, AlertCircle,
+  Trash2, ArrowLeft
+} from 'lucide-react';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
-    interface Message {
-    id: number;
-    sender: 'doctor' | 'user';
-    content: string;
-    timestamp: string;
-    senderName: string;
-    avatar: string;
+const DieticianDashboard = () => {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [showDietPlanGenerator, setShowDietPlanGenerator] = useState(false);
+
+  const [patientInfo, setPatientInfo] = useState({
+    name: '',
+    id: '',
+    dosha: 'Vata',
+    prakriti: '',
+    vikruti: ''
+  });
+
+  const [meals, setMeals] = useState({
+    breakfast: [{ food: 'Warm Spiced Oatmeal', quantity: '1 bowl', preparation: 'Cook with water, add cardamom and ginger' }],
+    lunch: [
+      { food: 'Kitchari', quantity: '1.5 cups', preparation: 'Made with split mung beans, basmati rice, and seasonal vegetables.' },
+      { food: 'Steamed Asparagus', quantity: '1/2 cup', preparation: 'Lightly steamed with a pinch of black pepper.' }
+    ],
+    dinner: [{ food: 'Vegetable Soup', quantity: '1 large bowl', preparation: 'Well-cooked root vegetables in a light broth.' }],
+    snacks: [{ food: 'Stewed Apple', quantity: '1 apple', preparation: 'Stewed with a pinch of cinnamon.' }]
+  });
+
+  const [notes, setNotes] = useState('');
+
+  const sidebarItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: Home },
+    { id: 'patients', label: 'Patients', icon: Users },
+    { id: 'diet-plans', label: 'Diet Plans', icon: FileText },
+    { id: 'food-db', label: 'Food Database', icon: Database },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'appointments', label: 'Appointments', icon: Calendar },
+    { id: 'billing', label: 'Billing', icon: CreditCard }
+  ];
+
+  const recentPatients = [
+    { id: 1, name: 'Priya Patel', age: 32, gender: 'Female', dosha: 'Vata', lastVisit: '2 weeks ago', compliance: 87, status: 'active' },
+    { id: 2, name: 'Arjun Singh', age: 45, gender: 'Male', dosha: 'Pitta', lastVisit: '1 month ago', compliance: 92, status: 'active' },
+    { id: 3, name: 'Meera Iyer', age: 28, gender: 'Female', dosha: 'Kapha', lastVisit: '3 weeks ago', compliance: 78, status: 'needs-attention' },
+    { id: 4, name: 'Rohan Verma', age: 50, gender: 'Male', dosha: 'Vata-Pitta', lastVisit: '2 months ago', compliance: 95, status: 'active' },
+    { id: 5, name: 'Divya Krishnan', age: 35, gender: 'Female', dosha: 'Pitta-Kapha', lastVisit: '1 week ago', compliance: 89, status: 'active' }
+  ];
+
+  const todayAppointments = [
+    { time: '10:00 AM', patient: 'Priya Patel', type: 'Follow-up', duration: '30 min' },
+    { time: '11:30 AM', patient: 'New Patient', type: 'Initial Consultation', duration: '60 min' },
+    { time: '2:00 PM', patient: 'Arjun Singh', type: 'Diet Review', duration: '30 min' },
+    { time: '3:30 PM', patient: 'Meera Iyer', type: 'Progress Check', duration: '30 min' }
+  ];
+
+  const foodDatabase = [
+    { name: 'Quinoa', dosha: 'Tridoshic', properties: 'Light, Dry', category: 'Grain' },
+    { name: 'Spinach', dosha: 'Pitta Pacifying', properties: 'Cooling, Light', category: 'Vegetable' },
+    { name: 'Almonds', dosha: 'Vata Pacifying', properties: 'Nourishing, Heavy', category: 'Nut' },
+    { name: 'Ghee', dosha: 'Tridoshic', properties: 'Nourishing, Oily', category: 'Dairy' },
+    { name: 'Mango', dosha: 'Pitta Pacifying', properties: 'Sweet, Cooling', category: 'Fruit' }
+  ];
+
+  const addMealItem = (mealType) => {
+    setMeals(prev => ({
+      ...prev,
+      [mealType]: [...prev[mealType], { food: '', quantity: '', preparation: '' }]
+    }));
+  };
+
+  const removeMealItem = (mealType, index) => {
+    setMeals(prev => ({
+      ...prev,
+      [mealType]: prev[mealType].filter((_, i) => i !== index)
+    }));
+  };
+
+  const updateMealItem = (mealType, index, field, value) => {
+    setMeals(prev => ({
+      ...prev,
+      [mealType]: prev[mealType].map((item, i) => 
+        i === index ? { ...item, [field]: value } : item
+      )
+    }));
+  };
+
+  const handlePatientInfoChange = (field, value) => {
+    setPatientInfo(prev => ({ ...prev, [field]: value }));
+  };
+
+  const exportToPDF = () => {
+    const pdfContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Diet Plan - ${patientInfo.name}</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+          .header { text-align: center; border-bottom: 2px solid #7FB069; padding-bottom: 20px; margin-bottom: 30px; }
+          .patient-info { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+          .meal-section { margin-bottom: 30px; }
+          .meal-title { color: #7FB069; font-size: 18px; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px; }
+          .meal-item { margin-bottom: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+          .notes-section { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 30px; }
+          table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+          th, td { text-align: left; padding: 8px; border-bottom: 1px solid #ddd; }
+          th { background-color: #7FB069; color: white; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>Ayurvedic Diet Plan</h1>
+          <p>Prepared by Dr. Anya Sharma | Ayurvedic Practitioner</p>
+        </div>
+        
+        <div class="patient-info">
+          <h2>Patient Information</h2>
+          <table>
+            <tr><th>Name:</th><td>${patientInfo.name}</td></tr>
+            <tr><th>Patient ID:</th><td>${patientInfo.id}</td></tr>
+            <tr><th>Dosha:</th><td>${patientInfo.dosha}</td></tr>
+            <tr><th>Prakriti:</th><td>${patientInfo.prakriti || 'Not specified'}</td></tr>
+            <tr><th>Vikruti:</th><td>${patientInfo.vikruti || 'Not specified'}</td></tr>
+          </table>
+        </div>
+
+        ${Object.entries(meals).map(([mealType, items]) => `
+          <div class="meal-section">
+            <h3 class="meal-title">${mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h3>
+            ${items.map(item => `
+              <div class="meal-item">
+                <strong>${item.food}</strong> - ${item.quantity}<br>
+                <em>Preparation: ${item.preparation}</em>
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+
+        ${notes ? `
+          <div class="notes-section">
+            <h3>Additional Notes & Guidelines</h3>
+            <p>${notes}</p>
+          </div>
+        ` : ''}
+
+        <div style="margin-top: 50px; text-align: center; color: #666; font-size: 12px;">
+          <p>Generated on ${new Date().toLocaleDateString()}</p>
+          <p>This diet plan is personalized based on Ayurvedic principles. Please follow the recommendations and consult if you have any concerns.</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const blob = new Blob([pdfContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Diet_Plan_${patientInfo.name || 'Patient'}_${new Date().toISOString().split('T')[0]}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    alert('Diet plan exported successfully! The file will be downloaded as an HTML file that can be printed as PDF.');
+  };
+
+  const renderMealSection = (mealType, title, mealData) => (
+    <div className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-[#7FB069]">{title}</h3>
+        <button 
+          onClick={() => addMealItem(mealType)}
+          className="flex items-center justify-center px-3 py-2 bg-white text-[#374151] border border-[#E5E7EB] text-xs font-semibold rounded-lg shadow-sm hover:bg-gray-50 transition-all"
+        >
+          Add Item
+        </button>
+      </div>
+      <div className="space-y-4">
+        {mealData.map((item, index) => (
+          <div key={index} className="grid grid-cols-12 gap-4 items-end">
+            <div className="col-span-4">
+              {index === 0 && <label className="block text-sm font-medium text-gray-700 mb-1">Food Recommendation</label>}
+              <input
+                className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                type="text"
+                value={item.food}
+                onChange={(e) => updateMealItem(mealType, index, 'food', e.target.value)}
+                placeholder="e.g., Oatmeal with cinnamon"
+              />
+            </div>
+            <div className="col-span-2">
+              {index === 0 && <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>}
+              <input
+                className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                type="text"
+                value={item.quantity}
+                onChange={(e) => updateMealItem(mealType, index, 'quantity', e.target.value)}
+                placeholder="e.g., 1 cup"
+              />
+            </div>
+            <div className="col-span-5">
+              {index === 0 && <label className="block text-sm font-medium text-gray-700 mb-1">Preparation</label>}
+              <input
+                className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                type="text"
+                value={item.preparation}
+                onChange={(e) => updateMealItem(mealType, index, 'preparation', e.target.value)}
+                placeholder="e.g., Cooked with almond milk"
+              />
+            </div>
+            <div className="col-span-1 flex items-end pb-2">
+              <button 
+                onClick={() => removeMealItem(mealType, index)}
+                className="text-gray-400 hover:text-red-500 transition-colors"
+              >
+                <Trash2 className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderDietPlanGenerator = () => (
+    <div className="min-h-screen bg-[#F5F5DC]" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <main className="p-8 overflow-y-auto">
+        <header className="mb-8 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setShowDietPlanGenerator(false)}
+              className="flex items-center justify-center p-2 text-[#374151] hover:bg-gray-100 rounded-lg transition-all"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <div>
+              <h1 className="text-3xl font-bold text-[#374151]">Diet Plan Generator</h1>
+              <p className="text-[#6B7280] mt-1">Create and manage personalized Ayurvedic diet plans for your patients.</p>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <button className="flex items-center justify-center px-4 py-2 bg-white text-[#374151] border border-[#E5E7EB] text-sm font-semibold rounded-lg shadow-sm hover:bg-gray-50 transition-all">
+              Save Draft
+            </button>
+            <button 
+              onClick={exportToPDF}
+              className="flex items-center justify-center px-4 py-2 bg-[#7FB069] text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-opacity-90 transition-all"
+            >
+              Export Plan
+            </button>
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <section className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Patient Information</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="patient-name">
+                    Patient Name
+                  </label>
+                  <input
+                    className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="patient-name"
+                    type="text"
+                    value={patientInfo.name}
+                    onChange={(e) => handlePatientInfoChange('name', e.target.value)}
+                    placeholder="e.g., Priya Patel"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="patient-id">
+                    Patient ID
+                  </label>
+                  <input
+                    className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="patient-id"
+                    type="text"
+                    value={patientInfo.id}
+                    onChange={(e) => handlePatientInfoChange('id', e.target.value)}
+                    placeholder="e.g., P0123"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Ayurvedic Principles</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="dosha">
+                    Dosha
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="dosha"
+                    value={patientInfo.dosha}
+                    onChange={(e) => handlePatientInfoChange('dosha', e.target.value)}
+                  >
+                    <option>Vata</option>
+                    <option>Pitta</option>
+                    <option>Kapha</option>
+                    <option>Vata-Pitta</option>
+                    <option>Vata-Kapha</option>
+                    <option>Pitta-Kapha</option>
+                    <option>Tridoshic</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="prakriti">
+                    Prakriti
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="prakriti"
+                    value={patientInfo.prakriti}
+                    onChange={(e) => handlePatientInfoChange('prakriti', e.target.value)}
+                  >
+                    <option value="">Select Prakriti</option>
+                    <option>Vata</option>
+                    <option>Pitta</option>
+                    <option>Kapha</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="vikruti">
+                    Vikruti
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069]"
+                    id="vikruti"
+                    value={patientInfo.vikruti}
+                    onChange={(e) => handlePatientInfoChange('vikruti', e.target.value)}
+                  >
+                    <option value="">Select Vikruti</option>
+                    <option>Vata</option>
+                    <option>Pitta</option>
+                    <option>Kapha</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Meal Components</h2>
+              <div className="space-y-6">
+                {renderMealSection('breakfast', 'Breakfast', meals.breakfast)}
+                {renderMealSection('lunch', 'Lunch', meals.lunch)}
+                {renderMealSection('dinner', 'Dinner', meals.dinner)}
+                {renderMealSection('snacks', 'Snacks', meals.snacks)}
+              </div>
+            </section>
+          </div>
+
+          <div className="lg:col-span-1 space-y-8">
+            <section className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Plan Notes</h2>
+              <textarea
+                className="w-full h-40 px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7FB069] resize-none"
+                placeholder="Add general notes, guidelines, or lifestyle recommendations for the patient..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </section>
+
+            <section className="bg-white p-6 rounded-xl border border-[#E5E7EB] shadow-sm">
+              <h2 className="text-xl font-semibold text-[#374151] mb-4">Plan Actions</h2>
+              <div className="space-y-3">
+                <button 
+                  onClick={exportToPDF}
+                  className="w-full flex items-center justify-center px-4 py-2 bg-[#7FB069] text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-opacity-90 transition-all"
+                >
+                  Generate & Send to Patient
+                </button>
+                <button className="w-full flex items-center justify-center px-4 py-2 bg-white text-[#374151] border border-[#E5E7EB] text-sm font-semibold rounded-lg shadow-sm hover:bg-gray-50 transition-all">
+                  Save as Template
+                </button>
+                <button className="w-full flex items-center justify-center px-4 py-2 bg-white text-red-600 border border-red-200 hover:bg-red-50 text-sm font-semibold rounded-lg shadow-sm transition-all">
+                  Discard Plan
+                </button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+
+  const renderDashboard = () => (
+    <div className="space-y-8">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold text-stone-800">Practitioner Dashboard</h1>
+      </header>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-bold text-stone-800 mb-4">Patient Management</h2>
+        
+        <div className="border-b border-stone-300 mb-4">
+          <nav className="flex gap-8">
+            <button className="pb-3 border-b-2 border-[#7FB069] text-stone-800 font-semibold">
+              Patient Profiles
+            </button>
+            <button className="pb-3 border-b-2 border-transparent text-stone-600 hover:border-[#7FB069] hover:text-stone-800 font-semibold">
+              Intake Forms
+            </button>
+          </nav>
+        </div>
+
+        <div className="bg-white rounded-lg border border-stone-300 overflow-x-auto shadow-lg">
+          <table className="w-full text-sm text-left text-gray-500">
+            <thead className="text-xs text-stone-800 uppercase bg-[#F5F5DC]">
+              <tr>
+                <th className="px-6 py-3">Name</th>
+                <th className="px-6 py-3">Age</th>
+                <th className="px-6 py-3">Gender</th>
+                <th className="px-6 py-3">Dosha</th>
+                <th className="px-6 py-3">Last Visit</th>
+                <th className="px-6 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentPatients.map((patient) => (
+                <tr key={patient.id} className="bg-white border-b border-stone-300">
+                  <td className="px-6 py-4 font-medium text-stone-800 whitespace-nowrap">
+                    {patient.name}
+                  </td>
+                  <td className="px-6 py-4 text-stone-600">{patient.age}</td>
+                  <td className="px-6 py-4 text-stone-600">{patient.gender}</td>
+                  <td className="px-6 py-4">
+                    <span className="bg-[#98D8C8] text-stone-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                      {patient.dosha}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-stone-600">{patient.lastVisit}</td>
+                  <td className="px-6 py-4">
+                    <button className="font-medium text-[#7FB069] hover:underline">
+                      View Profile
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <section>
+          <h2 className="text-2xl font-bold text-stone-800 mb-4">Diet Plan Generator</h2>
+          <div className="bg-white p-6 rounded-lg border border-stone-300 shadow-lg">
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-stone-700 mb-2" htmlFor="patient-search">
+                Search for a patient
+              </label>
+              <input
+                className="w-full px-4 py-2 border border-stone-300 rounded-md focus:ring-[#7FB069] focus:border-[#7FB069]"
+                id="patient-search"
+                placeholder="Enter patient name"
+                type="text"
+              />
+            </div>
+            <button 
+              onClick={() => setShowDietPlanGenerator(true)}
+              className="w-full bg-[#7FB069] text-white font-bold py-2 px-4 rounded-md hover:bg-[#6ea055] transition-colors"
+            >
+              Generate Diet Plan
+            </button>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold text-stone-800 mb-4">Patient Summary Reports</h2>
+          <div className="bg-white p-6 rounded-lg border border-stone-300 shadow-lg">
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-stone-700 mb-2" htmlFor="patient-select">
+                Select a patient
+              </label>
+              <input
+                className="w-full px-4 py-2 border border-stone-300 rounded-md focus:ring-[#7FB069] focus:border-[#7FB069]"
+                id="patient-select"
+                placeholder="Select a patient"
+                type="text"
+              />
+            </div>
+            <button className="w-full bg-[#7FB069] text-white font-bold py-2 px-4 rounded-md hover:bg-[#6ea055] transition-colors">
+              Generate Report
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-bold text-stone-800 mb-4">Analytics Center</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white p-6 rounded-lg border border-stone-300 shadow-lg">
+            <h3 className="text-lg font-semibold text-stone-800">Patient Compliance</h3>
+            <p className="text-3xl font-bold text-stone-800">
+              85% <span className="text-sm font-medium text-[#7FB069]">+5%</span>
+            </p>
+            <p className="text-sm text-stone-600">Last 3 Months</p>
+            <div className="mt-4 h-40">
+              <svg fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%">
+                <path
+                  d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                  fill="url(#paint0_linear_1)"
+                  stroke="#7FB069"
+                  strokeLinecap="round"
+                  strokeWidth="3"
+                />
+                <defs>
+                  <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_1" x1="236" x2="236" y1="1" y2="149">
+                    <stop stopColor="#98D8C8" stopOpacity="0.5" />
+                    <stop offset="1" stopColor="#98D8C8" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg border border-stone-300 shadow-lg">
+            <h3 className="text-lg font-semibold text-stone-800">Dosha Balance Trends</h3>
+            <p className="text-3xl font-bold text-stone-800">
+              Balanced <span className="text-sm font-medium text-[#A0522D]">-2%</span>
+            </p>
+            <p className="text-sm text-stone-600">Last 6 Months</p>
+            <div className="mt-4 h-40 flex items-end gap-4">
+              <div className="flex-1 text-center">
+                <div className="bg-[#98D8C8] rounded-t-md mx-auto" style={{ height: '90%', width: '50%' }}></div>
+                <p className="text-sm font-medium text-stone-600 mt-2">Vata</p>
+              </div>
+              <div className="flex-1 text-center">
+                <div className="bg-[#98D8C8] rounded-t-md mx-auto" style={{ height: '20%', width: '50%' }}></div>
+                <p className="text-sm font-medium text-stone-600 mt-2">Pitta</p>
+              </div>
+              <div className="flex-1 text-center">
+                <div className="bg-[#98D8C8] rounded-t-md mx-auto" style={{ height: '100%', width: '50%' }}></div>
+                <p className="text-sm font-medium text-stone-600 mt-2">Kapha</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <section className="lg:col-span-2">
+          <h2 className="text-2xl font-bold text-stone-800 mb-4">Food Database</h2>
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              className="w-full pl-10 pr-4 py-2 border border-stone-300 rounded-md focus:ring-[#7FB069] focus:border-[#7FB069]"
+              placeholder="Search for foods"
+              type="text"
+            />
+          </div>
+          <div className="bg-white rounded-lg border border-stone-300 overflow-x-auto shadow-lg">
+            <table className="w-full text-sm text-left text-gray-500">
+              <thead className="text-xs text-stone-800 uppercase bg-[#F5F5DC]">
+                <tr>
+                  <th className="px-6 py-3">Food Item</th>
+                  <th className="px-6 py-3">Dosha Impact</th>
+                  <th className="px-6 py-3">Properties</th>
+                  <th className="px-6 py-3">Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                {foodDatabase.map((food, index) => (
+                  <tr key={index} className="bg-white border-b border-stone-300">
+                    <td className="px-6 py-4 font-medium text-stone-800 whitespace-nowrap">
+                      {food.name}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="bg-[#98D8C8] text-stone-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                        {food.dosha}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-stone-600">{food.properties}</td>
+                    <td className="px-6 py-4 text-stone-600">{food.category}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold text-stone-800 mb-4">Appointments</h2>
+          <div className="bg-white p-4 rounded-lg border border-stone-300 shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <button className="p-1 rounded-full hover:bg-gray-100">
+                <span className="text-xl">‹</span>
+              </button>
+              <h4 className="font-semibold text-lg">July 2024</h4>
+              <button className="p-1 rounded-full hover:bg-gray-100">
+                <span className="text-xl">›</span>
+              </button>
+            </div>
+            <div className="grid grid-cols-7 text-center text-sm">
+              <div className="font-semibold text-gray-500">S</div>
+              <div className="font-semibold text-gray-500">M</div>
+              <div className="font-semibold text-gray-500">T</div>
+              <div className="font-semibold text-gray-500">W</div>
+              <div className="font-semibold text-gray-500">T</div>
+              <div className="font-semibold text-gray-500">F</div>
+              <div className="font-semibold text-gray-500">S</div>
+              <div className="col-start-4">1</div>
+              <div>2</div>
+              <div>3</div>
+              <div>4</div>
+              <div className="bg-[#7FB069] text-white font-bold rounded-full w-8 h-8 mx-auto flex items-center justify-center">5</div>
+              <div>6</div>
+              <div>7</div>
+              <div>8</div>
+              <div>9</div>
+              <div>10</div>
+              <div>11</div>
+              <div>12</div>
+              <div>13</div>
+              <div>14</div>
+              <div>15</div>
+              <div>16</div>
+              <div>17</div>
+              <div>18</div>
+              <div>19</div>
+              <div>20</div>
+              <div>21</div>
+              <div>22</div>
+              <div>23</div>
+              <div>24</div>
+              <div>25</div>
+              <div>26</div>
+              <div>27</div>
+              <div>28</div>
+              <div>29</div>
+              <div>30</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+
+  const renderPatients = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-stone-800">Patient Management</h2>
+        <button className="flex items-center space-x-2 bg-[#7FB069] text-white px-4 py-2 rounded-lg hover:bg-[#6ea055] transition-colors">
+          <Plus className="w-4 h-4" />
+          <span>Add Patient</span>
+        </button>
+      </div>
+
+      <div className="bg-white p-6 rounded-xl border border-stone-300 shadow-lg">
+        <div className="flex items-center space-x-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search patients..."
+              className="w-full pl-10 pr-4 py-2 border border-stone-300 rounded-lg focus:ring-[#7FB069] focus:border-[#7FB069]"
+            />
+          </div>
+          <select className="px-4 py-2 border border-stone-300 rounded-lg focus:ring-[#7FB069] focus:border-[#7FB069]">
+            <option>All Doshas</option>
+            <option>Vata</option>
+            <option>Pitta</option>
+            <option>Kapha</option>
+            <option>Vata-Pitta</option>
+            <option>Pitta-Kapha</option>
+          </select>
+          <select className="px-4 py-2 border border-stone-300 rounded-lg focus:ring-[#7FB069] focus:border-[#7FB069]">
+            <option>All Status</option>
+            <option>Active</option>
+            <option>Needs Attention</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl border border-stone-300 overflow-hidden shadow-lg">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-[#F5F5DC] border-b border-stone-300">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-800 uppercase tracking-wider">Patient</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-800 uppercase tracking-wider">Dosha</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-800 uppercase tracking-wider">Compliance</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-800 uppercase tracking-wider">Last Visit</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-800 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-800 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-stone-300">
+              {recentPatients.map((patient) => (
+                <tr key={patient.id} className="hover:bg-[#F5F5DC]">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#7FB069] to-[#98D8C8] rounded-full flex items-center justify-center">
+                        <span className="text-white font-semibold text-sm">
+                          {patient.name.charAt(0)}
+                        </span>
+                      </div>
+                      <div className="ml-4">
+                        <div className="text-sm font-medium text-stone-800">{patient.name}</div>
+                        <div className="text-sm text-stone-600">Age {patient.age}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="bg-[#98D8C8] text-stone-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                      {patient.dosha}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <div className="w-16 bg-gray-200 rounded-full h-2 mr-3">
+                        <div 
+                          className="bg-gradient-to-r from-[#7FB069] to-[#98D8C8] h-2 rounded-full"
+                          style={{ width: `${patient.compliance}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm font-medium text-stone-800">{patient.compliance}%</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-stone-600">
+                    {patient.lastVisit}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      patient.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {patient.status === 'active' ? 'Active' : 'Needs Attention'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div className="flex space-x-2">
+                      <button className="text-[#7FB069] hover:text-stone-800">View</button>
+                      <button className="text-[#7FB069] hover:text-stone-800">Edit</button>
+                      <button 
+                        onClick={() => setShowDietPlanGenerator(true)}
+                        className="text-[#7FB069] hover:text-stone-800"
+                      >
+                        Diet Plan
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderContent = () => {
+    if (showDietPlanGenerator) {
+      return renderDietPlanGenerator();
     }
 
-    const ChatPractitioner: React.FC = () => {
-    const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState<Message[]>([
-        {
-        id: 1,
-        sender: 'doctor',
-        content: 'Hello, Sarah! How are you feeling today? Any changes in your symptoms or diet?',
-        timestamp: '10:30 AM',
-        senderName: 'Dr. Anya Sharma',
-        avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&h=100&fit=crop&crop=face'
-        },
-        {
-        id: 2,
-        sender: 'user',
-        content: "Hi Dr. Sharma, I'm feeling a bit better, thank you! My digestion has improved slightly, but I still have some bloating after meals.",
-        timestamp: '10:32 AM',
-        senderName: 'Sarah',
-        avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
-        }
-    ]);
+    switch (activeTab) {
+      case 'dashboard': return renderDashboard();
+      case 'patients': return renderPatients();
+      case 'diet-plans': return <div className="text-center py-20 text-stone-600">Diet Plans module coming soon...</div>;
+      case 'food-db': return <div className="text-center py-20 text-stone-600">Food Database module coming soon...</div>;
+      case 'analytics': return <div className="text-center py-20 text-stone-600">Analytics module coming soon...</div>;
+      case 'appointments': return <div className="text-center py-20 text-stone-600">Appointments module coming soon...</div>;
+      case 'billing': return <div className="text-center py-20 text-stone-600">Billing module coming soon...</div>;
+      default: return renderDashboard();
+    }
+  };
 
-    const handleSendMessage = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (message.trim()) {
-        const newMessage: Message = {
-            id: messages.length + 1,
-            sender: 'user',
-            content: message,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            senderName: 'Sarah',
-            avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
-        };
-        setMessages([...messages, newMessage]);
-        setMessage('');
-        }
-    };
-
-    return (
-        <div className="flex h-screen bg-warm-beige dark:bg-gray-900 font-sans text-gray-800 dark:text-gray-200">
-        {/* Sidebar */}
-        <aside className="w-80 bg-white dark:bg-gray-800/50 flex flex-col p-8 space-y-10 border-r border-gray-200 dark:border-gray-700">
-            {/* Doctor Profile */}
-            <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-cover bg-center bg-soft-sage-green/20 flex items-center justify-center">
-                <span className="text-soft-sage-green font-bold text-xl">DS</span>
-            </div>
+  return (
+    <div className="min-h-screen bg-[#F5F5DC] flex">
+      {!showDietPlanGenerator && (
+        <aside className="flex-shrink-0 w-64 bg-[#F5F5DC] p-6 border-r border-stone-300">
+          <div className="flex items-center gap-3 mb-8">
+            <div 
+              className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+              style={{
+                backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAL6LCXZXnGqZqY_Y-T1BepYlhu15Uoxz7voeVKNX7bt8zzsXHucUfWjgic9llY85L2X8YWS9EslXZRbwGKiVqpw7yCmLEXMenVtKnA3XgL7njOfaEl5KM7HWeAMSNwNx_od_QBcJ4GW9qqQ2rtEZ4ZjI3C7c71_KjTXP59KY6NR-saxpXwGl12dMfUIRGOqYvAYlK5lRleBCMrztrOjYxEdeTPiwLbckhwAMZNIb4ES6HgNBqSg3Wp1EMKa6xou52RUGqb8N1vrYUm")'
+              }}
+            ></div>
             <div>
-                <h1 className="font-bold text-xl text-gray-900 dark:text-white">Dr. Anya Sharma</h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Ayurvedic Practitioner</p>
+              <h1 className="text-stone-800 text-base font-bold">Dr. Anya Sharma</h1>
+              <p className="text-stone-600 text-sm">Ayurvedic Practitioner</p>
             </div>
-            </div>
+          </div>
 
-            {/* Navigation */}
-            <nav className="flex flex-col space-y-3">
-            <a className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-soft-sage-green/10 dark:hover:bg-soft-sage-green/20 text-gray-700 dark:text-gray-300 transition-colors" href="#">
-                <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"></path>
-                </svg>
-                <span className="font-medium">Dashboard</span>
-            </a>
-            <a className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-soft-sage-green/10 dark:hover:bg-soft-sage-green/20 text-gray-700 dark:text-gray-300 transition-colors" href="#">
-                <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"></path>
-                </svg>
-                <span className="font-medium">Consultations</span>
-            </a>
-            <a className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-soft-sage-green/10 dark:hover:bg-soft-sage-green/20 text-gray-700 dark:text-gray-300 transition-colors" href="#">
-                <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M224,104h-8.37a88,88,0,0,0-175.26,0H32a8,8,0,0,0-8,8,104.35,104.35,0,0,0,56,92.28V208a16,16,0,0,0,16,16h64a16,16,0,0,0,16-16v-3.72A104.35,104.35,0,0,0,232,112,8,8,0,0,0,224,104Zm-24.46,0H148.12a71.84,71.84,0,0,1,41.27-29.57A71.45,71.45,0,0,1,199.54,104ZM173.48,56.23q2.75,2.25,5.27,4.75a87.92,87.92,0,0,0-49.15,43H100.1A72.26,72.26,0,0,1,168,56C169.83,56,171.66,56.09,173.48,56.23ZM128,40a71.87,71.87,0,0,1,19,2.57A88.36,88.36,0,0,0,83.33,104H56.46A72.08,72.08,0,0,1,128,40Zm36.66,152A8,8,0,0,0,160,199.3V208H96v-8.7A8,8,0,0,0,91.34,192a88.29,88.29,0,0,1-51-72H215.63A88.29,88.29,0,0,1,164.66,192Z"></path>
-                </svg>
-                <span className="font-medium">Diet Plans</span>
-            </a>
-            <a className="flex items-center gap-4 px-4 py-3 rounded-xl bg-soft-sage-green/20 dark:bg-soft-sage-green/30 text-soft-sage-green font-semibold" href="#">
-                <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M232,96a16,16,0,0,0-16-16H184V48a16,16,0,0,0-16-16H40A16,16,0,0,0,24,48V176a8,8,0,0,0,13,6.22L72,154V184a16,16,0,0,0,16,16h93.59L219,230.22a8,8,0,0,0,5,1.78,8,8,0,0,0,8-8Zm-42.55,89.78a8,8,0,0,0-5-1.78H88V152h80a16,16,0,0,0,16-16V96h32V207.25Z"></path>
-                </svg>
-                <span className="font-semibold">Chat</span>
-            </a>
-            <a className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-soft-sage-green/10 dark:hover:bg-soft-sage-green/20 text-gray-700 dark:text-gray-300 transition-colors" href="#">
-                <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"></path>
-                </svg>
-                <span className="font-medium">Settings</span>
-            </a>
-            </nav>
-        </aside>
-
-        {/* Main Chat Area */}
-        <main className="flex-1 flex flex-col bg-warm-beige/50 dark:bg-gray-800/80">
-            {/* Chat Header */}
-            <header className="p-8 border-b border-gray-200/80 dark:border-gray-700/50">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Chat with Dr. Anya Sharma</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Dr. Anya Sharma is currently{' '}
-                <span className="text-soft-sage-green font-semibold">online</span>. Feel free to send a message.
-            </p>
-            </header>
-
-            {/* Messages Area */}
-            <div className="flex-1 p-8 overflow-y-auto space-y-8">
-            <div className="text-center">
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400 bg-warm-beige dark:bg-gray-700/80 px-3 py-1 rounded-full">
-                Today
-                </span>
-            </div>
-
-            {messages.map((msg) => (
-                <div
-                key={msg.id}
-                className={`bg-white/80 dark:bg-gray-700/50 p-6 rounded-xl shadow-sm ${
-                    msg.sender === 'user' ? 'bg-soothing-blue/20 dark:bg-soothing-blue/10 ml-auto max-w-2xl' : 'max-w-2xl'
+          <nav className="flex flex-col gap-2">
+            {sidebarItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`flex items-center gap-3 px-4 py-2 rounded-md font-semibold ${
+                  activeTab === item.id
+                    ? 'bg-[#98D8C8] text-stone-800'
+                    : 'text-stone-600 hover:bg-[#98D8C8] hover:text-stone-800'
                 }`}
-                >
-                <div className={`flex items-start gap-4 ${msg.sender === 'user' ? 'justify-end flex-row-reverse' : ''}`}>
-                    <div className="w-12 h-12 rounded-full bg-soft-sage-green/20 flex items-center justify-center shrink-0">
-                    <span className="text-soft-sage-green font-bold">
-                        {msg.sender === 'doctor' ? 'DS' : 'U'}
-                    </span>
-                    </div>
-                    <div className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'} max-w-xl`}>
-                    <span className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1">
-                        {msg.senderName}
-                    </span>
-                    <div className={`${
-                        msg.sender === 'user' 
-                        ? 'bg-soothing-blue text-white rounded-lg rounded-br-none' 
-                        : 'bg-gray-100 dark:bg-gray-600/50 text-gray-800 dark:text-gray-200 rounded-lg rounded-bl-none'
-                    } p-4`}>
-                        <p>{msg.content}</p>
-                    </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {msg.timestamp}
-                    </span>
-                    </div>
-                </div>
-                </div>
+              >
+                <item.icon className="w-5 h-5" />
+                <span>{item.label}</span>
+              </button>
             ))}
-            </div>
+          </nav>
+        </aside>
+      )}
 
-            {/* Message Input */}
-            <footer className="p-8 border-t border-gray-200/80 dark:border-gray-700/50">
-            <form onSubmit={handleSendMessage} className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-soft-sage-green/20 flex items-center justify-center shrink-0">
-                <span className="text-soft-sage-green font-bold">U</span>
-                </div>
-                <div className="flex-1 relative">
-                <input
-                    className="w-full h-14 px-5 pr-32 bg-white dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-soft-sage-green focus:border-soft-sage-green placeholder-gray-400 dark:placeholder-gray-500 text-gray-800 dark:text-gray-200"
-                    placeholder="Type a message..."
-                    type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-4 gap-2">
-                    <button
-                    type="button"
-                    className="p-2.5 rounded-full hover:bg-soft-sage-green/10 dark:hover:bg-soft-sage-green/20 text-gray-500 dark:text-gray-400 transition-colors"
-                    >
-                    <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M209.66,122.34a8,8,0,0,1,0,11.32l-82.05,82a56,56,0,0,1-79.2-79.21L147.67,35.73a40,40,0,1,1,56.61,56.55L105,193A24,24,0,1,1,71,159L154.3,74.38A8,8,0,1,1,165.7,85.6L82.39,170.31a8,8,0,1,0,11.27,11.36L192.93,81A24,24,0,1,0,159,47L59.76,147.68a40,40,0,1,0,56.53,56.62l82.06-82A8,8,0,0,1,209.66,122.34Z"></path>
-                    </svg>
-                    </button>
-                    <button
-                    type="button"
-                    className="p-2.5 rounded-full hover:bg-soft-sage-green/10 dark:hover:bg-soft-sage-green/20 text-gray-500 dark:text-gray-400 transition-colors"
-                    >
-                    <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M128,176a48.05,48.05,0,0,0,48-48V64a48,48,0,0,0-96,0v64A48.05,48.05,0,0,0,128,176ZM96,64a32,32,0,0,1,64,0v64a32,32,0,0,1-64,0Zm40,143.6V232a8,8,0,0,1-16,0V207.6A80.11,80.11,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0A80.11,80.11,0,0,1,136,207.6Z"></path>
-                    </svg>
-                    </button>
-                </div>
-                </div>
-                <button
-                type="submit"
-                className="px-8 py-3.5 rounded-xl bg-soft-sage-green text-white font-semibold hover:bg-soft-sage-green/80 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-soft-sage-green"
-                >
-                Send
-                </button>
-            </form>
-            </footer>
-        </main>
-        </div>
-    );
-    };
+      <main className={`${showDietPlanGenerator ? 'flex-1' : 'flex-1 p-8'}`}>
+        {renderContent()}
+      </main>
+    </div>
+  );
+};
 
-    export default ChatPractitioner;
+export default DieticianDashboard;
