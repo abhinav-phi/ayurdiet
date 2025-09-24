@@ -1,4 +1,4 @@
-# PS Chosen SIH Hackathon
+# PS - SIH25024 [Team - CODE BRIGADE]
 
 This README provides an overview of the project, including team details, relevant links, tasks completed, tech stack, key features, and steps to run the project locally.
 
@@ -56,14 +56,124 @@ This project leverages the following technologies:
 - **Personalization:** Personalizes diets and lifestyle recommendations based on an individual's unique prakriti.
 - **Checker:** Ensures all meal recommendations consist of Ayurvedic-approved food combinations.
 
-## Local Setup Instructions (Write for both windows and macos)
+# Local Setup Instructions (Windows & macOS)
 
-Follow these steps to run the project locally
+Follow these steps to set up and run the project locally.
 
-1. **Clone the Repository**
-   ```bash
-   git clone GITHUB_LINK_TO_THE_REPO
-   cd REPO_DIRECTORY
-   ```
+## 1. Prerequisites
 
-MORE STEPS HERE
+### Install Git
+* **Windows**: Download Git for Windows → during installation, select "Add Git to PATH".
+* **macOS**: Git usually comes pre-installed. Check with:
+
+```bash
+git --version
+```
+
+If not, install via Homebrew:
+
+```bash
+brew install git
+```
+
+### Install Node.js & npm
+* Download and install from [Node.js official site](https://nodejs.org/) (**LTS version recommended**).
+* Verify installation:
+
+```bash
+node -v
+npm -v
+```
+
+*(Optional: You can also install via nvm to easily switch Node versions.)*
+
+### Install Package Manager (optional but recommended)
+* **Yarn** (alternative to npm):
+
+```bash
+npm install --global yarn
+```
+
+* **pnpm**:
+
+```bash
+npm install --global pnpm
+```
+
+### Database (if required by the project)
+* If your project uses **PostgreSQL/MySQL/MongoDB/etc.**, install and start the service locally.
+* Example (macOS with Homebrew):
+
+```bash
+brew install postgresql
+brew services start postgresql
+```
+
+## 2. Clone the Repository
+
+```bash
+git clone GITHUB_LINK_TO_THE_REPO
+cd REPO_DIRECTORY
+```
+
+## 3. Install Dependencies
+
+Using npm:
+
+```bash
+npm install
+```
+
+Or yarn:
+
+```bash
+yarn install
+```
+
+## 4. Set Up Environment Variables
+
+* Duplicate `.env.example` (if available) → rename it to `.env`.
+* Fill in the required values (API keys, database URL, etc.).
+* Example:
+
+```bash
+DATABASE_URL=postgres://user:password@localhost:5432/dbname
+API_KEY=your_api_key_here
+```
+
+## 5. Run Database Migrations (if applicable)
+
+```bash
+npx prisma migrate dev
+```
+
+*(Skip if not using Prisma/DB migrations.)*
+
+## 6. Start the Development Server
+
+```bash
+npm run dev
+```
+
+or
+
+```bash
+yarn dev
+```
+
+## 7. Access the App
+
+Open your browser and visit:
+
+```
+http://localhost:3000
+```
+
+(or the port shown in the terminal).
+
+## 8. Build for Production (Optional)
+
+```bash
+npm run build
+npm start
+```
