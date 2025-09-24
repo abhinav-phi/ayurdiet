@@ -21,40 +21,40 @@ const About = () => {
 
   const team = [
     {
-      name: "--",
+      name: "Abhinav",
       role: "---",
-      image: "https://images.unsplash.com/photo",
-      description: "===="
+      image: "/assets/A.png",
+      description: ""
     },
     {
-      name: "--",
+      name: "Bharat",
       role: "---",
-      image: "https://images.unsplash.com/photo",
-      description: "===="
+      image: "/assets/B.png",
+      description: ""
     },
     {
-      name: "--",
+      name: "Kashish",
       role: "---",
-      image: "https://images.unsplash.com/photo",
-      description: "===="
+      image: "/assets/K.png",
+      description: ""
     },
     {
-      name: "--",
+      name: "Aditya",
       role: "---",
-      image: "https://images.unsplash.com/photo",
-      description: "===="
+      image: "/assets/A.png",
+      description: ""
     },
     {
-      name: "--",
+      name: "Reshik",
       role: "---",
-      image: "https://images.unsplash.com/photo",
-      description: "===="
+      image: "/assets/R.png",
+      description: ""
     },
     {
-      name: "--",
+      name: "Disha",
       role: "---",
-      image: "https://images.unsplash.com/photo",
-      description: "===="
+      image: "/assets/D.png",
+      description: ""
     }
   ];
 
