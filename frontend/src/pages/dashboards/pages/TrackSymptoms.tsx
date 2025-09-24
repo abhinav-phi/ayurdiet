@@ -19,7 +19,6 @@
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Symptom tracked:', formData);
-        // Add your form submission logic here
     };
 
     return (
