@@ -6,7 +6,6 @@ import {
   Star, Flower, X
 } from 'lucide-react';
 
-// Inline component definitions (no imports needed)
 const LogMeal = () => {
   const [formData, setFormData] = useState({
     mealType: '',
@@ -288,7 +287,6 @@ const ChatPractitioner = () => {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Check file size (limit to 10MB)
       if (file.size > 10 * 1024 * 1024) {
         alert('File size should be less than 10MB');
         return;
@@ -297,7 +295,6 @@ const ChatPractitioner = () => {
       const fileUrl = URL.createObjectURL(file);
       let messageType = 'file';
       
-      // Determine message type based on file type
       if (file.type.startsWith('image/')) {
         messageType = 'image';
       } else if (file.type.startsWith('video/')) {
@@ -318,7 +315,6 @@ const ChatPractitioner = () => {
       };
       setMessages([...messages, newMessage]);
       
-      // Reset file input
       event.target.value = '';
     }
   };
@@ -418,7 +414,6 @@ const ChatPractitioner = () => {
         ))}
       </div>
       
-      {/* Voice Recording Preview */}
       {audioBlob && (
         <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -449,7 +444,6 @@ const ChatPractitioner = () => {
         </div>
       )}
       
-      {/* Message Input Form */}
       <form onSubmit={handleSendMessage} className="flex gap-2 items-end">
         <div className="flex-1">
           <input
@@ -461,7 +455,6 @@ const ChatPractitioner = () => {
           />
         </div>
         
-        {/* File Upload Button */}
         <div className="relative">
           <input
             type="file"
@@ -481,7 +474,6 @@ const ChatPractitioner = () => {
           </button>
         </div>
         
-        {/* Microphone Button */}
         <button
           type="button"
           onClick={isRecording ? stopRecording : startRecording}
@@ -503,7 +495,6 @@ const ChatPractitioner = () => {
           )}
         </button>
         
-        {/* Send Button */}
         <button
           type="submit"
           disabled={!message.trim()}
@@ -513,7 +504,6 @@ const ChatPractitioner = () => {
         </button>
       </form>
       
-      {/* Recording Status */}
       {isRecording && (
         <div className="mt-2 flex items-center justify-center gap-2 text-red-500">
           <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
@@ -532,7 +522,6 @@ const PatientDashboard = () => {
   const sidebarItems = [
     { id: 'home', label: 'Dashboard', icon: Home },
     { id: 'education', label: 'Education', icon: Apple },
-    { id: 'community', label: 'Community', icon: MessageCircle },
     { id: 'privacy', label: 'Privacy', icon: Settings },
     { id: 'support', label: 'Support', icon: User }
   ];
@@ -540,25 +529,24 @@ const PatientDashboard = () => {
   const todayMeals = [
     {
       name: 'Oatmeal with Berries',
-      image: 'https://images.unsplash.com/photo-1517673132405-a56a62b18caf?w=300&h=200&fit=crop',
+      image: '/assets/breakfast.webp',
       completed: true,
       meal: 'Breakfast'
     },
     {
       name: 'Quinoa Salad with Avocado',
-      image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=200&fit=crop',
+      image: '/assets/lunch.jpg',
       completed: false,
       meal: 'Lunch'
     },
     {
       name: 'Lentil Soup with Vegetables',
-      image: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&h=200&fit=crop',
+      image: '/assets/dinner.jpg',
       completed: false,
       meal: 'Dinner'
     }
   ];
 
-  // Button click handlers
   const handleLogMeal = () => setActiveModal('logmeal');
   const handleTrackSymptoms = () => setActiveModal('symptoms');
   const handleJournalEntry = () => setActiveModal('journal');
