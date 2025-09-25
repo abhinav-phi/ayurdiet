@@ -13,11 +13,9 @@ const DieticianDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showDietPlanGenerator, setShowDietPlanGenerator] = useState(false);
   
-  // Food Database states
   const [searchTerm, setSearchTerm] = useState('');
   const [filterOpen, setFilterOpen] = useState(false);
 
-  // FIXED: Moved dosha values to component level state
   const [doshaValues] = useState({
     vata: 35.2,
     pitta: 28.1,
@@ -44,7 +42,6 @@ const DieticianDashboard = () => {
 
   const [notes, setNotes] = useState('');
 
-  // FIXED: Moved calculation functions to component level
   const calculateBalanceReduction = () => {
     const idealBalance = 33.33;
     const totalDeviation = Math.abs(doshaValues.vata - idealBalance) + 
@@ -55,9 +52,9 @@ const DieticianDashboard = () => {
 
   const getDoshaColor = (dosha) => {
     const baseColors = {
-      vata: '#87CEEB',  // Sky blue (air element)
-      pitta: '#FF6B6B', // Red-orange (fire element) 
-      kapha: '#98D8C8'  // Green (earth/water element)
+      vata: '#87CEEB',  
+      pitta: '#FF6B6B',  
+      kapha: '#98D8C8'  
     };
     return baseColors[dosha];
   };
@@ -70,8 +67,8 @@ const DieticianDashboard = () => {
   const sidebarItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'patients', label: 'Patients', icon: Users },
-    { id: 'diet-plans', label: 'Diet Plans', icon: FileText },
     { id: 'food-db', label: 'Food Database', icon: Database },
+    { id: 'diet-plans', label: 'Diet Plans', icon: FileText },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
     { id: 'appointments', label: 'Appointments', icon: Calendar },
     { id: 'billing', label: 'Billing', icon: CreditCard }
@@ -85,7 +82,6 @@ const DieticianDashboard = () => {
     { id: 5, name: 'Divya Krishnan', age: 35, gender: 'Female', dosha: 'Pitta-Kapha', lastVisit: '1 week ago', compliance: 89, status: 'active' }
   ];
 
-  // Food Database Data
   const foodData = [
     {
       id: 1,
@@ -333,7 +329,6 @@ const DieticianDashboard = () => {
 
   const renderFoodDatabase = () => (
     <div className="space-y-8">
-      {/* Header Section */}
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div className="flex flex-col gap-1">
           <h1 className="text-3xl font-bold text-stone-800">Food Database</h1>
@@ -354,7 +349,6 @@ const DieticianDashboard = () => {
         </div>
       </div>
 
-      {/* Search Section */}
       <div className="mb-6">
         <div className="relative">
           <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -367,7 +361,6 @@ const DieticianDashboard = () => {
         </div>
       </div>
 
-      {/* Filter Panel (collapsible) */}
       {filterOpen && (
         <div className="mb-6 p-4 bg-white rounded-lg border border-stone-300 shadow-lg">
           <h3 className="text-lg font-semibold text-stone-800 mb-4">Filter Options</h3>
@@ -408,7 +401,6 @@ const DieticianDashboard = () => {
         </div>
       )}
 
-      {/* Food Table */}
       <div className="overflow-x-auto rounded-lg border border-stone-300 bg-white shadow-lg">
         <table className="w-full text-left">
           <thead>
@@ -461,7 +453,6 @@ const DieticianDashboard = () => {
         </table>
       </div>
 
-      {/* Empty State */}
       {filteredFoods.length === 0 && (
         <div className="text-center py-12">
           <div className="text-gray-400 mb-4">
@@ -661,7 +652,7 @@ const DieticianDashboard = () => {
               Patient Profiles
             </button>
             <button className="pb-3 border-b-2 border-transparent text-stone-600 hover:border-[#7FB069] hover:text-stone-800 font-semibold">
-              Intake Forms
+              {/* Intake Forms */}
             </button>
           </nav>
         </div>
@@ -777,7 +768,6 @@ const DieticianDashboard = () => {
             </div>
           </div>
 
-          {/* FIXED: Dosha Balance Trends Section */}
           <div className="bg-white p-6 rounded-lg border border-stone-300 shadow-lg">
             <h3 className="text-lg font-semibold text-stone-800">Dosha Balance Trends</h3>
             
@@ -790,9 +780,7 @@ const DieticianDashboard = () => {
             
             <p className="text-sm text-stone-600 mb-4">Last 6 Months</p>
             
-            {/* Interactive Bar Chart */}
             <div className="mt-4 h-48 flex items-end gap-6 bg-gray-50 p-4 rounded-lg">
-              {/* Vata Bar */}
               <div className="flex-1 text-center relative">
                 <div className="relative h-40 flex items-end">
                   <div 
@@ -812,7 +800,6 @@ const DieticianDashboard = () => {
                 <p className="text-xs text-stone-500">(Air + Space)</p>
               </div>
               
-              {/* Pitta Bar */}
               <div className="flex-1 text-center relative">
                 <div className="relative h-40 flex items-end">
                   <div 
@@ -832,7 +819,6 @@ const DieticianDashboard = () => {
                 <p className="text-xs text-stone-500">(Fire + Water)</p>
               </div>
               
-              {/* Kapha Bar */}
               <div className="flex-1 text-center relative">
                 <div className="relative h-40 flex items-end">
                   <div 
@@ -853,7 +839,6 @@ const DieticianDashboard = () => {
               </div>
             </div>
             
-            {/* Balance Analysis */}
             <div className="mt-4 p-3 bg-gray-100 rounded-lg">
               <h4 className="text-sm font-semibold text-stone-800 mb-2">Balance Analysis</h4>
               <div className="grid grid-cols-3 gap-4 text-xs">
@@ -936,7 +921,6 @@ const DieticianDashboard = () => {
             </div>
             
             <div className="grid grid-cols-7 gap-1 text-center text-sm">
-              {/* Day Headers */}
               <div className="font-semibold text-gray-500 py-2">S</div>
               <div className="font-semibold text-gray-500 py-2">M</div>
               <div className="font-semibold text-gray-500 py-2">T</div>
@@ -945,18 +929,15 @@ const DieticianDashboard = () => {
               <div className="font-semibold text-gray-500 py-2">F</div>
               <div className="font-semibold text-gray-500 py-2">S</div>
               
-              {/* Calendar Days */}
-              {/* Empty cells for start of month */}
               <div></div>
               <div></div>
               <div></div>
               
-              {/* Days 1-30 */}
               {[...Array(30)].map((_, i) => {
                 const day = i + 1;
-                const isToday = day === 25; // Current date
-                const hasAppointment = [5, 12, 18, 26].includes(day); // Days with appointments
-                const isWeekend = (day + 2) % 7 === 0 || (day + 3) % 7 === 0; // Saturday/Sunday
+                const isToday = day === 25; 
+                const hasAppointment = [5, 12, 18, 26].includes(day); 
+                const isWeekend = (day + 2) % 7 === 0 || (day + 3) % 7 === 0; 
                 
                 return (
                   <div
@@ -983,7 +964,6 @@ const DieticianDashboard = () => {
               })}
             </div>
             
-            {/* Legend */}
             <div className="mt-4 flex items-center justify-center gap-4 text-xs text-gray-600">
               <div className="flex items-center gap-1">
                 <div className="w-3 h-3 bg-[#7FB069] rounded-full"></div>
@@ -995,7 +975,6 @@ const DieticianDashboard = () => {
               </div>
             </div>
             
-            {/* Upcoming Appointments Preview */}
             <div className="mt-4 pt-3 border-t border-gray-200">
               <h5 className="text-sm font-semibold text-stone-800 mb-2">Upcoming Appointments</h5>
               <div className="space-y-2">
@@ -1147,7 +1126,6 @@ const DieticianDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F5DC] flex">
-      {/* FIXED: Sidebar is now always visible */}
       <aside className="flex-shrink-0 w-64 bg-[#F5F5DC] p-6 border-r border-stone-300">
         <div className="flex items-center gap-3 mb-8">
           <div 
@@ -1168,7 +1146,7 @@ const DieticianDashboard = () => {
               key={item.id}
               onClick={() => {
                 setActiveTab(item.id);
-                setShowDietPlanGenerator(false); // Close diet plan generator when switching tabs
+                setShowDietPlanGenerator(false); 
               }}
               className={`flex items-center gap-3 px-4 py-2 rounded-md font-semibold transition-all ${
                 activeTab === item.id
